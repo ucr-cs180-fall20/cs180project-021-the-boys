@@ -1,4 +1,3 @@
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -11,11 +10,9 @@ public class main extends ListenerAdapter {
     private static JDA jda;
     private static Operations op;
 
-    public static void main(String[] args) throws InterruptedException, LoginException {
+    public static void main(String[] args) throws  LoginException {
         op = new Operations();
-        jda = new JDABuilder(AccountType.BOT)
-                .setToken("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4")
-                .build();
+        jda = JDABuilder.createDefault("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4").build();
         jda.addEventListener(new main());
     }
 
