@@ -36,8 +36,8 @@ public class Operations {
         if (contents.length > 1)
             page = Integer.parseInt(contents[1]) - 1;
 
-        int startRank = page * 25;
-        int endRank = startRank + 25;
+        int startRank = page * 15;
+        int endRank = startRank + 15;
 
         List<Anime> listCopy = new ArrayList<>(list.getList());
         listCopy.sort(Comparator.comparing(Anime::getMembers));
@@ -47,7 +47,6 @@ public class Operations {
                 "Episodes  Watched\n```");
         StringBuilder descTwo = new StringBuilder("```fix\n");
         StringBuilder descThree = new StringBuilder("```\n");
-        StringBuilder descFour = new StringBuilder("```\n");
         for (int i = startRank; i < endRank; ++i)
         {
             if (i < listCopy.size())
@@ -60,18 +59,6 @@ public class Operations {
                         int maxLengthName = (local.getName().length() < 20)?local.getName().length():20;
                         int maxLengthType = (local.getType().length() < 5)?local.getType().length():5;
                         descThree.append(i + 1)
-                                .append(i > 8 ? ". " : ".  ")
-                                .append(String.format("%-20s\t", local.getName().substring(0, maxLengthName)))
-                                .append(String.format("%-4s\t", local.getRating()))
-                                .append(String.format("%-5s\t", local.getType().substring(0, maxLengthType)))
-                                .append(String.format("%-3s\t", local.getEpisodes()))
-                                .append(String.format("%-5s", local.getMembers())+"\n");
-                    }
-                    else if (i > 14)
-                    {
-                        int maxLengthName = (local.getName().length() < 20)?local.getName().length():20;
-                        int maxLengthType = (local.getType().length() < 5)?local.getType().length():5;
-                        descFour.append(i + 1)
                                 .append(i > 8 ? ". " : ".  ")
                                 .append(String.format("%-20s\t", local.getName().substring(0, maxLengthName)))
                                 .append(String.format("%-4s\t", local.getRating()))
@@ -96,7 +83,6 @@ public class Operations {
         }
         descTwo.append("```");
         descThree.append("```");
-        descFour.append("```");
 
         EmbedBuilder lbBuilder = new EmbedBuilder();
         lbBuilder.addField("Anime rankings - Page " + (page == 0 ? 1 : page + 1), desc.toString(), false);
@@ -104,7 +90,6 @@ public class Operations {
         if (page == 0)
             lbBuilder.addField("", descTwo.toString(), false);
         lbBuilder.addField("", descThree.toString(),false);
-        lbBuilder.addField("", descFour.toString(), false);
 
         lbBuilder.setColor(new Color(0, 153, 255));
         lbBuilder.setFooter("Today at " + formatter.format(date),
