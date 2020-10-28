@@ -8,6 +8,7 @@ import java.util.List;
 
 class animeList {
     private static final String fileName = "anime.csv";
+    private static final String testSave = "saved.csv";
     List<Anime> list = new ArrayList<Anime>();
 
     String line;
@@ -58,7 +59,7 @@ class animeList {
 
     void write(){
         try{
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(fileName));
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get(testSave));
 
             //save list to files
             writer.close();
