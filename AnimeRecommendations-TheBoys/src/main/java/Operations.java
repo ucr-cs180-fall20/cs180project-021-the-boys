@@ -62,20 +62,20 @@ public class Operations {
         int startRank = page * 15;
         int endRank = startRank + 15;
 
-        List<Anime> listCopy = new ArrayList<>();
+        List<Anime> listCopy = new ArrayList<>(list.getList());
         //listCopy.sort(Comparator.comparing(Anime::getMembers));
        // Collections.reverse(listCopy);
 
-        //gets the top ratings from members
-        if(contents[0] == "topw"){
-            listCopy = new ArrayList<>(list.getList());
+        //gets most watched
+        if(contents[0].equals("topw")){
+            //listCopy = new ArrayList<>(list.getList());
             listCopy.sort(Comparator.comparing(Anime::getMembers));
             Collections.reverse(listCopy);
         }
 
         //gets the top rating
-        if(contents[0] == "topr"){
-            listCopy = new ArrayList<>(list.getList());
+        else if(contents[0].equals("topr")){
+            //listCopy = new ArrayList<>(list.getList());
             listCopy.sort(Comparator.comparing(Anime::getRating));
             Collections.reverse(listCopy);
         }

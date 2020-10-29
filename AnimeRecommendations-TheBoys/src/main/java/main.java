@@ -27,7 +27,7 @@ public class main extends ListenerAdapter {
                 System.out.println("Replied: Hello World");
                 event.getChannel().sendMessage("Hello World!").complete();
             }
-            if(event.getMessage().getContentRaw().startsWith("test")){
+            if(event.getMessage().getContentRaw().startsWith("top")){
                 op.animeListEmbed(event);
             }
             if(event.getMessage().getContentRaw().equals("save")){
