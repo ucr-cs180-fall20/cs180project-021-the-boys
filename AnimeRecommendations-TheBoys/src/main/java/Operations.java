@@ -27,6 +27,23 @@ public class Operations {
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
 
+    void searchfunction(MessageReceivedEvent event){
+        String input = event.getMessage().getContentRaw();
+        if(input.charAt(0) == '!'){
+
+            for(int i = 0; i <= list.getSize(); i++ ){
+                Anime exampleAnime = list.getList().get(i);
+                if (input == exampleAnime.getName()){
+                    
+
+                }
+
+            }
+        }
+
+
+    }
+
     void animeListEmbed(MessageReceivedEvent event){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
         formatter.setTimeZone(TimeZone.getTimeZone("PST"));
