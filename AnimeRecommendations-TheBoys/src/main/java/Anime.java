@@ -30,8 +30,11 @@ public class Anime{
     public String getType(){return type;}
 
     public int getEpisodes(){return episodes;}
+    public void setEpisodes(int e){episodes = e;}
 
     public double getRating(){return rating;}
+    public void setRating(double d){rating = d;}
 
     public int getMembers(){return members;}
+    public void setMembers(int m){members = m;}
 }
