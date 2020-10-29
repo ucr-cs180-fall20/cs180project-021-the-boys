@@ -31,17 +31,30 @@ public class main extends ListenerAdapter {
                 op.animeListEmbed(event);
             }
             if(event.getMessage().getContentRaw().startsWith("!") || event.getMessage().getContentRaw().startsWith("$")){
-                op.searchfunction(event);
+                op.searchFunction(event);
             }
             if(event.getMessage().getContentRaw().equals("save")){
-                op.messageEmbed(event);
+                op.saveList(event);
                 System.out.println("Replied: Saving CSV");
-                event.getChannel().sendMessage("Saving CSV").complete();
             }
             if(event.getMessage().getContentRaw().equals("backup")){
-                op.backUp();
+                op.backUp(event);
                 System.out.println("Replied: Backing up CSV");
-                event.getChannel().sendMessage("Backing up CSV").complete();
+            }
+            if(event.getMessage().getContentRaw().startsWith("updateAE")){
+                op.updateAnimeEpisodes(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("updateAR")){
+                op.updateAnimeRating(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("updateAW")){
+                op.updateAnimeWatched(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("deleteA")){
+                op.deleteAnime(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("addA")){
+                op.addAnimeToList(event);
             }
         }
     }
