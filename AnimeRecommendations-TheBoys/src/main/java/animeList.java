@@ -63,17 +63,18 @@ class animeList {
     }
 
     void write(){
-        String save = "";
+        String save = ""; //String to be store
 
-        for (int i = 0; i < list.size() - 1; i++) {
-            save = save.concat(Integer.toString(list.get(i).getAnime_id())).concat(",");
-            save = save.concat(list.get(i).getName()).concat(",");
-            save = save.concat(list.get(i).getGenre()).concat(",");
-            save = save.concat(list.get(i).getType()).concat(",");
-            save = save.concat(Integer.toString(list.get(i).getEpisodes())).concat(",");
-            save = save.concat(Double.toString(list.get(i).getRating())).concat(",");
-            save = save.concat(Integer.toString(list.get(i).getMembers())).concat(",");
+        for (Anime anime : list) { //per row
+            save = save.concat(Integer.toString(anime.getAnime_id())).concat(","); //ID
+            save = save.concat(anime.getName()).concat(","); //Name
+            save = save.concat(anime.getGenre()).concat(","); //Genre
+            save = save.concat(anime.getType()).concat(","); //Type
+            save = save.concat(Integer.toString(anime.getEpisodes())).concat(","); //Episodes
+            save = save.concat(Double.toString(anime.getRating())).concat(","); //Ratings
+            save = save.concat(Integer.toString(anime.getMembers())).concat("\n"); //Members
         }
+        /* For the case in which there is no new line after the last element
         save = save.concat(Integer.toString(list.get(list.size() - 1).getAnime_id())).concat(",");
         save = save.concat(list.get(list.size() - 1).getName()).concat(",");
         save = save.concat(list.get(list.size() - 1).getGenre()).concat(",");
@@ -81,6 +82,7 @@ class animeList {
         save = save.concat(Integer.toString(list.get(list.size() - 1).getEpisodes())).concat(",");
         save = save.concat(Double.toString(list.get(list.size() - 1).getRating())).concat(",");
         save = save.concat(Integer.toString(list.get(list.size() - 1).getMembers()));
+         */
 
         try{
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(testSave));
@@ -98,15 +100,16 @@ class animeList {
 
         String saveBU = "";
 
-        for (int i = 0; i < list.size() - 1; i++) {
-            saveBU = saveBU.concat(Integer.toString(list.get(i).getAnime_id())).concat(",");
-            saveBU = saveBU.concat(list.get(i).getName()).concat(",");
-            saveBU = saveBU.concat(list.get(i).getGenre()).concat(",");
-            saveBU = saveBU.concat(list.get(i).getType()).concat(",");
-            saveBU = saveBU.concat(Integer.toString(list.get(i).getEpisodes())).concat(",");
-            saveBU = saveBU.concat(Double.toString(list.get(i).getRating())).concat(",");
-            saveBU = saveBU.concat(Integer.toString(list.get(i).getMembers())).concat(",");
+        for (Anime anime : list) { //per row
+            saveBU = saveBU.concat(Integer.toString(anime.getAnime_id())).concat(","); //ID
+            saveBU = saveBU.concat(anime.getName()).concat(","); //Name
+            saveBU = saveBU.concat(anime.getGenre()).concat(","); //Genre
+            saveBU = saveBU.concat(anime.getType()).concat(","); //Type
+            saveBU = saveBU.concat(Integer.toString(anime.getEpisodes())).concat(","); //Episodes
+            saveBU = saveBU.concat(Double.toString(anime.getRating())).concat(","); //Ratings
+            saveBU = saveBU.concat(Integer.toString(anime.getMembers())).concat("\n"); //Members
         }
+        /*
         saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getAnime_id())).concat(",");
         saveBU = saveBU.concat(list.get(list.size() - 1).getName()).concat(",");
         saveBU = saveBU.concat(list.get(list.size() - 1).getGenre()).concat(",");
@@ -114,7 +117,7 @@ class animeList {
         saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getEpisodes())).concat(",");
         saveBU = saveBU.concat(Double.toString(list.get(list.size() - 1).getRating())).concat(",");
         saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getMembers()));
-
+        */
         try{
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(backupFile));
             //save list to files
