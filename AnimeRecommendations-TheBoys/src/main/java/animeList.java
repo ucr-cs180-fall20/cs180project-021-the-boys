@@ -57,6 +57,10 @@ class animeList {
 
     void addAnimeToList(Anime anime){list.add(anime);}
 
+    int getSize(){
+        return list.size();
+    }
+
     void write(){
         try{
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(testSave));
