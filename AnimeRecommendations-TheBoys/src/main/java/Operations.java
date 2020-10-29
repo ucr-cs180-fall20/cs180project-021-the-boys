@@ -29,16 +29,44 @@ public class Operations {
 
     void searchfunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
-        if(input.charAt(0) == '!'){
-
-            for(int i = 0; i <= list.getSize(); i++ ){
+        if(input.startsWith("!")){
+            input = input.substring(1);
+            for(int i = 0; i <= list.getSize()-1; i++){
                 Anime exampleAnime = list.getList().get(i);
-                if (input == exampleAnime.getName()){
-                    
+                if (input.toUpperCase().equals(exampleAnime.getName().toUpperCase())){
+                    EmbedBuilder msgBuilder = new EmbedBuilder();
+                    msgBuilder.setTitle(exampleAnime.getName());
+                    msgBuilder.addField("Genre",exampleAnime.getGenre(), false);
+                    msgBuilder.addField("Episodes", ""+exampleAnime.getEpisodes(), false);
+                    msgBuilder.addField("Rating", ""+ exampleAnime.getRating(), false);
+                    //msgBuilder.addField("field title 4", "content without inline", false);
+                    //msgBuilder.setFooter("text on bottom");
+                    event.getChannel().sendMessage(msgBuilder.build()).complete();
+
 
                 }
 
             }
+
+        }
+        if(input.startsWith("$")){
+            String temp = new String();
+            StringBuilder Listname = new StringBuilder();
+            input = input.substring(1);
+            for(int i = 0; i <= list.getSize()-1; i++){
+                Anime exampleAnime1 = list.getList().get(i);
+                if(exampleAnime1.getName().contains(input)){
+                    temp =exampleAnime1.getName();
+                    Listname.append(temp);
+                    Listname.append("\n");
+                }
+
+            }
+                EmbedBuilder msgBuilder = new EmbedBuilder();
+                msgBuilder.setTitle("Search Results");
+                msgBuilder.setDescription(Listname.toString());
+                event.getChannel().sendMessage(msgBuilder.build()).complete();
+
         }
 
 
