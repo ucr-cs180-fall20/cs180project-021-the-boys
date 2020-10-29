@@ -58,9 +58,7 @@ class animeList {
 
     void addAnimeToList(Anime anime){list.add(anime);}
 
-    int getSize(){
-        return list.size();
-    }
+    int getSize(){return list.size();}
 
     void write(){
         String save = ""; //String to be store
@@ -132,4 +130,11 @@ class animeList {
 
     List<Anime> getList(){return list;}
 
+    void updateEpisodes(int listItem, int episodes){list.get(listItem).setEpisodes(episodes);}
+
+    void updateRating(int listItem, double rating){list.get(listItem).setRating(rating);}
+
+    void updateMembers(int listItem, int members){list.get(listItem).setMembers(members);}
+
+    void deleteAnime(int i){list.remove(i);}
 }
