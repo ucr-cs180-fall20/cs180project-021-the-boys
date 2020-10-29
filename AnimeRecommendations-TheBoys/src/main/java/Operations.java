@@ -33,7 +33,7 @@ public class Operations {
             input = input.substring(1);
             for(int i = 0; i <= list.getSize()-1; i++){
                 Anime exampleAnime = list.getList().get(i);
-                if (input.toUpperCase().equals(exampleAnime.getName().toUpperCase())){
+                if (input.toUpperCase().replaceAll("\\s+","").equals(exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
                     EmbedBuilder msgBuilder = new EmbedBuilder();
                     msgBuilder.setTitle(exampleAnime.getName());
                     msgBuilder.addField("Genre",exampleAnime.getGenre(), false);
