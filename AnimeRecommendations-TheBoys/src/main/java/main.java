@@ -30,6 +30,9 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("top")){
                 op.animeListEmbed(event);
             }
+            if(event.getMessage().getContentRaw().startsWith("!") || event.getMessage().getContentRaw().startsWith("$")){
+                op.searchfunction(event);
+            }
             if(event.getMessage().getContentRaw().equals("save")){
                 op.messageEmbed(event);
                 System.out.println("Replied: Saving CSV");

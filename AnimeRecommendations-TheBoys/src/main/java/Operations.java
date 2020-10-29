@@ -34,13 +34,67 @@ public class Operations {
 
     void searchfunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
-        if(input.charAt(0) == '!'){
-
-            for(int i = 0; i <= list.getSize(); i++ ){
+        boolean found = false;
+        if(input.startsWith("!")){
+            input = input.substring(1);
+            for(int i = 0; i <= list.getSize()-1; i++){
                 Anime exampleAnime = list.getList().get(i);
-                if (input == exampleAnime.getName()){
-                    
+                if (input.toUpperCase().replaceAll("\\s+","").equals(exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                    EmbedBuilder msgBuilder = new EmbedBuilder();
+                    msgBuilder.setTitle(exampleAnime.getName());
+                    msgBuilder.addField("Genre",exampleAnime.getGenre(), false);
+                    msgBuilder.addField("Episodes", ""+exampleAnime.getEpisodes(), false);
+                    msgBuilder.addField("Rating", ""+ exampleAnime.getRating(), false);
+                    //msgBuilder.addField("field title 4", "content without inline", false);
+                    //msgBuilder.setFooter("text on bottom");
+                    event.getChannel().sendMessage(msgBuilder.build()).complete();
+                    found = true;
 
+                }
+
+            }
+            if(!found){
+                event.getChannel().sendMessage("no results found").complete();
+            }
+
+
+
+        }
+        if(input.startsWith("$")) {
+            String temp = new String();
+            StringBuilder Listname = new StringBuilder();
+            StringBuilder Listname2 = new StringBuilder();
+            input = input.substring(1);
+            for (int i = 0; i <= list.getSize() - 1; i++) {
+                Anime exampleAnime1 = list.getList().get(i);
+                if (exampleAnime1.getName().toUpperCase().replaceAll("\\s+","").contains(input.toUpperCase().replaceAll("\\s+",""))) {
+                    if (Listname.length() <= 2000) {
+                                temp = exampleAnime1.getName();
+                                Listname.append(temp);
+                                Listname.append("\n");
+                                found = true;
+                    }
+                    else if (Listname.length() >= 2001 && Listname2.length() <= 2000) {
+                        temp = exampleAnime1.getName();
+                        Listname2.append(temp);
+                        Listname2.append("\n");
+                    }
+                }
+            }
+
+            if (!found) {
+                event.getChannel().sendMessage("no results found").complete();
+            } else {
+                EmbedBuilder msgBuilder = new EmbedBuilder();
+                msgBuilder.setTitle("Search Results");
+                msgBuilder.setDescription(Listname.toString());
+                event.getChannel().sendMessage(msgBuilder.build()).complete();
+
+                if (Listname2.length() >= 1) {
+                    EmbedBuilder msgBuilder2 = new EmbedBuilder();
+                    msgBuilder2.setTitle("Search Results");
+                    msgBuilder2.setDescription(Listname2.toString());
+                    event.getChannel().sendMessage(msgBuilder2.build()).complete();
                 }
 
             }
