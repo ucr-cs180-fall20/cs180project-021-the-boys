@@ -58,10 +58,29 @@ class animeList {
     void addAnimeToList(Anime anime){list.add(anime);}
 
     void write(){
+        String save = "";
+
+        for (int i = 0; i < list.size() - 1; i++) {
+            save = save.concat(Integer.toString(list.get(i).getAnime_id())).concat(",");
+            save = save.concat(list.get(i).getName()).concat(",");
+            save = save.concat(list.get(i).getGenre()).concat(",");
+            save = save.concat(list.get(i).getType()).concat(",");
+            save = save.concat(Integer.toString(list.get(i).getEpisodes())).concat(",");
+            save = save.concat(Double.toString(list.get(i).getRating())).concat(",");
+            save = save.concat(Integer.toString(list.get(i).getMembers())).concat(",");
+        }
+        save = save.concat(Integer.toString(list.get(list.size() - 1).getAnime_id())).concat(",");
+        save = save.concat(list.get(list.size() - 1).getName()).concat(",");
+        save = save.concat(list.get(list.size() - 1).getGenre()).concat(",");
+        save = save.concat(list.get(list.size() - 1).getType()).concat(",");
+        save = save.concat(Integer.toString(list.get(list.size() - 1).getEpisodes())).concat(",");
+        save = save.concat(Double.toString(list.get(list.size() - 1).getRating())).concat(",");
+        save = save.concat(Integer.toString(list.get(list.size() - 1).getMembers()));
+
         try{
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(testSave));
-
             //save list to files
+            writer.write(save);
             writer.close();
         }
         catch (Exception e){
@@ -70,4 +89,5 @@ class animeList {
     }
 
     List<Anime> getList(){return list;}
+
 }

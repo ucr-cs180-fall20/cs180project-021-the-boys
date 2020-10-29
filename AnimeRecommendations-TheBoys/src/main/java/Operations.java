@@ -15,6 +15,7 @@ public class Operations {
     }
 
     void messageEmbed(MessageReceivedEvent event){
+        list.write();
         EmbedBuilder msgBuilder = new EmbedBuilder();
         msgBuilder.setTitle("title");
         msgBuilder.setDescription("description");

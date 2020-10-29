@@ -30,6 +30,11 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("test")){
                 op.animeListEmbed(event);
             }
+            if(event.getMessage().getContentRaw().equals("save")){
+                op.messageEmbed(event);
+                System.out.println("Replied: Saving CSV");
+                event.getChannel().sendMessage("Saving CSV").complete();
+            }
         }
     }
 }
