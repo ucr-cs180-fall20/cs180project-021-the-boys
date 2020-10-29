@@ -1,5 +1,5 @@
 import net.dv8tion.jda.api.*;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
@@ -14,13 +14,19 @@ public class Operations {
 
     }
 
-    void backUp(){
-
+    void backUp(MessageReceivedEvent event){
+        event.getChannel().sendMessage("Saving backup list, please wait...").complete();
         list.animeBackup();
+        event.getChannel().sendMessage("Backup list saved!").complete();
+    }
+
+    void saveList(MessageReceivedEvent event){
+        event.getChannel().sendMessage("Saving list, please wait...").complete();
+        list.write();
+        event.getChannel().sendMessage("List saved!").complete();
     }
 
     void messageEmbed(MessageReceivedEvent event){
-        list.write();
         EmbedBuilder msgBuilder = new EmbedBuilder();
         msgBuilder.setTitle("title");
         msgBuilder.setDescription("description");
@@ -32,7 +38,7 @@ public class Operations {
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
 
-    void searchfunction(MessageReceivedEvent event){
+    void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
         if(input.startsWith("!")){
@@ -49,16 +55,11 @@ public class Operations {
                     //msgBuilder.setFooter("text on bottom");
                     event.getChannel().sendMessage(msgBuilder.build()).complete();
                     found = true;
-
                 }
-
             }
             if(!found){
                 event.getChannel().sendMessage("no results found").complete();
             }
-
-
-
         }
         if(input.startsWith("$")) {
             String temp = new String();
@@ -69,10 +70,10 @@ public class Operations {
                 Anime exampleAnime1 = list.getList().get(i);
                 if (exampleAnime1.getName().toUpperCase().replaceAll("\\s+","").contains(input.toUpperCase().replaceAll("\\s+",""))) {
                     if (Listname.length() <= 2000) {
-                                temp = exampleAnime1.getName();
-                                Listname.append(temp);
-                                Listname.append("\n");
-                                found = true;
+                        temp = exampleAnime1.getName();
+                        Listname.append(temp);
+                        Listname.append("\n");
+                        found = true;
                     }
                     else if (Listname.length() >= 2001 && Listname2.length() <= 2000) {
                         temp = exampleAnime1.getName();
@@ -81,10 +82,10 @@ public class Operations {
                     }
                 }
             }
-
             if (!found) {
                 event.getChannel().sendMessage("no results found").complete();
-            } else {
+            }
+            else {
                 EmbedBuilder msgBuilder = new EmbedBuilder();
                 msgBuilder.setTitle("Search Results");
                 msgBuilder.setDescription(Listname.toString());
@@ -96,11 +97,8 @@ public class Operations {
                     msgBuilder2.setDescription(Listname2.toString());
                     event.getChannel().sendMessage(msgBuilder2.build()).complete();
                 }
-
             }
         }
-
-
     }
 
     void animeListEmbed(MessageReceivedEvent event){
@@ -118,7 +116,7 @@ public class Operations {
 
         List<Anime> listCopy = new ArrayList<>(list.getList());
         //listCopy.sort(Comparator.comparing(Anime::getMembers));
-       // Collections.reverse(listCopy);
+        // Collections.reverse(listCopy);
 
         //gets most watched
         if(contents[0].equals("topw")){
@@ -186,5 +184,120 @@ public class Operations {
         lbBuilder.setFooter("Today at " + formatter.format(date),
                 "https://cdn.frankerfacez.com/emoticon/251321/4");
         event.getChannel().sendMessage(lbBuilder.build()).complete();
+    }
+
+    void updateAnimeEpisodes(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        int episodes = Integer.parseInt(msgArray[2]);
+        boolean found = false;
+        Anime foundAnime = new Anime();
+
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                list.updateEpisodes(i,episodes);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
+                    + "\"'s** episodes to **" + episodes + "**" +
+                    "\n Don't forget to save list after updating an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+    }
+
+    void updateAnimeRating(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        double rating = Double.parseDouble(msgArray[2]);
+        boolean found = false;
+        Anime foundAnime = new Anime();
+
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                list.updateRating(i,rating);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
+                    + "\"'s** rating to **" + rating + "**" +
+                    "\n Don't forget to save list after updating an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+    }
+
+    void updateAnimeWatched(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        int watched = Integer.parseInt(msgArray[2]);
+        boolean found = false;
+        Anime foundAnime = new Anime();
+
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                list.updateMembers(i,watched);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
+                    + "\"'s** watched to **" + watched + "**" +
+                    "\n Don't forget to save list after updating an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+    }
+
+    void deleteAnime(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        Anime foundAnime = new Anime();
+        boolean found = false;
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                list.deleteAnime(i);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Deleted **\"" + foundAnime.getName()+ "\"** from the list" +
+                    "\n Don't forget to save the list after removing an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+    }
+
+    void addAnimeToList(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        List<Anime> listCopy = new ArrayList<>(list.getList());
+        listCopy.sort(Comparator.comparing(Anime::getAnime_id));
+        Collections.reverse(listCopy);
+        int newAnimeId = listCopy.get(0).getAnime_id() + 1;
+        Anime newAnime = new Anime(newAnimeId, animeName,"" ,"" ,0 ,0 ,0);
+        list.addAnimeToList(newAnime);
+        event.getChannel().sendMessage("Anime **\"" + newAnime.getName() + "\"** added to list, " +
+                "**please update \"genre, type, episodes, rating, and watched\"** whenever possible!" +
+                "\n Don't forget to save list after adding and updating an anime!").complete();
+        EmbedBuilder msgBuilder = new EmbedBuilder();
+        msgBuilder.setTitle(newAnime.getName());
+        msgBuilder.addField("Genre",newAnime.getGenre(), false);
+        msgBuilder.addField("Type",newAnime.getType(), false);
+        msgBuilder.addField("Episodes", "" + newAnime.getEpisodes(), false);
+        msgBuilder.addField("Rating", "" + newAnime.getRating(), false);
+        msgBuilder.addField("Watched","" + newAnime.getMembers(), false);
+        event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
 }
