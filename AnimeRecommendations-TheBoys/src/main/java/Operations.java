@@ -52,13 +52,21 @@ public class Operations {
         if(input.startsWith("$")){
             String temp = new String();
             StringBuilder Listname = new StringBuilder();
+            StringBuilder Listname2 = new StringBuilder();
             input = input.substring(1);
             for(int i = 0; i <= list.getSize()-1; i++){
                 Anime exampleAnime1 = list.getList().get(i);
-                if(exampleAnime1.getName().contains(input)){
-                    temp =exampleAnime1.getName();
-                    Listname.append(temp);
-                    Listname.append("\n");
+                if(exampleAnime1.getName().toUpperCase().replaceAll("\\s+","").contains(input.toUpperCase().replaceAll("\\s+",""))){
+                    if(Listname.length() <= 2000) {
+                        temp = exampleAnime1.getName();
+                        Listname.append(temp);
+                        Listname.append("\n");
+                    }
+                    else if(Listname.length() >= 2001 && Listname2.length() <= 2000){
+                        temp = exampleAnime1.getName();
+                        Listname2.append(temp);
+                        Listname2.append("\n");
+                    }
                 }
 
             }
@@ -66,6 +74,13 @@ public class Operations {
                 msgBuilder.setTitle("Search Results");
                 msgBuilder.setDescription(Listname.toString());
                 event.getChannel().sendMessage(msgBuilder.build()).complete();
+
+                if (Listname2.length() >= 1){
+                    EmbedBuilder msgBuilder2 = new EmbedBuilder();
+                    msgBuilder2.setTitle("Search Results");
+                    msgBuilder2.setDescription(Listname2.toString());
+                    event.getChannel().sendMessage(msgBuilder2.build()).complete();
+                }
 
         }
 
