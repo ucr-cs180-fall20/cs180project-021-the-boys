@@ -14,6 +14,11 @@ public class Operations {
 
     }
 
+    void backUp(){
+
+        list.animeBackup();
+    }
+
     void messageEmbed(MessageReceivedEvent event){
         list.write();
         EmbedBuilder msgBuilder = new EmbedBuilder();
@@ -57,9 +62,23 @@ public class Operations {
         int startRank = page * 15;
         int endRank = startRank + 15;
 
-        List<Anime> listCopy = new ArrayList<>(list.getList());
-        listCopy.sort(Comparator.comparing(Anime::getMembers));
-        Collections.reverse(listCopy);
+        List<Anime> listCopy = new ArrayList<>();
+        //listCopy.sort(Comparator.comparing(Anime::getMembers));
+       // Collections.reverse(listCopy);
+
+        //gets the top ratings from members
+        if(contents[0] == "topw"){
+            listCopy = new ArrayList<>(list.getList());
+            listCopy.sort(Comparator.comparing(Anime::getMembers));
+            Collections.reverse(listCopy);
+        }
+
+        //gets the top rating
+        if(contents[0] == "topr"){
+            listCopy = new ArrayList<>(list.getList());
+            listCopy.sort(Comparator.comparing(Anime::getRating));
+            Collections.reverse(listCopy);
+        }
 
         StringBuilder desc = new StringBuilder("```css\nRank   " + String.format("%-20s", "Anime") + "Rating  Type  " +
                 "Episodes  Watched\n```");

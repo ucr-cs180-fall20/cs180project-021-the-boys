@@ -35,6 +35,11 @@ public class main extends ListenerAdapter {
                 System.out.println("Replied: Saving CSV");
                 event.getChannel().sendMessage("Saving CSV").complete();
             }
+            if(event.getMessage().getContentRaw().equals("backup")){
+                op.backUp();
+                System.out.println("Replied: Backing up CSV");
+                event.getChannel().sendMessage("Backing up CSV").complete();
+            }
         }
     }
 }

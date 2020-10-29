@@ -9,6 +9,7 @@ import java.util.List;
 class animeList {
     private static final String fileName = "anime.csv";
     private static final String testSave = "saved.csv";
+    private static final String backupFile = "backupList.csv";
     List<Anime> list = new ArrayList<Anime>();
 
     String line;
@@ -90,6 +91,40 @@ class animeList {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    //backup function
+    void animeBackup(){
+
+        String saveBU = "";
+
+        for (int i = 0; i < list.size() - 1; i++) {
+            saveBU = saveBU.concat(Integer.toString(list.get(i).getAnime_id())).concat(",");
+            saveBU = saveBU.concat(list.get(i).getName()).concat(",");
+            saveBU = saveBU.concat(list.get(i).getGenre()).concat(",");
+            saveBU = saveBU.concat(list.get(i).getType()).concat(",");
+            saveBU = saveBU.concat(Integer.toString(list.get(i).getEpisodes())).concat(",");
+            saveBU = saveBU.concat(Double.toString(list.get(i).getRating())).concat(",");
+            saveBU = saveBU.concat(Integer.toString(list.get(i).getMembers())).concat(",");
+        }
+        saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getAnime_id())).concat(",");
+        saveBU = saveBU.concat(list.get(list.size() - 1).getName()).concat(",");
+        saveBU = saveBU.concat(list.get(list.size() - 1).getGenre()).concat(",");
+        saveBU = saveBU.concat(list.get(list.size() - 1).getType()).concat(",");
+        saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getEpisodes())).concat(",");
+        saveBU = saveBU.concat(Double.toString(list.get(list.size() - 1).getRating())).concat(",");
+        saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getMembers()));
+
+        try{
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get(backupFile));
+            //save list to files
+            writer.write(saveBU);
+            writer.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     List<Anime> getList(){return list;}
