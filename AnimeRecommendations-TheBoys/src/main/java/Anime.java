@@ -26,8 +26,10 @@ public class Anime{
     public String getName(){return name;}
 
     public String getGenre(){return genre;}
+    public void setGenre(String g){genre = g;} //added set genre
 
     public String getType(){return type;}
+    public void setType(String t){type = t;} //added set type
 
     public int getEpisodes(){return episodes;}
     public void setEpisodes(int e){episodes = e;}

@@ -136,6 +136,12 @@ class animeList {
 
     void updateMembers(int listItem, int members){list.get(listItem).setMembers(members);}
 
+    //added update genre
+    void updateGenre(int listItem, String genre){list.get(listItem).setGenre(genre);}
+
+    //added update type
+    void updateType(int listItem, String type){list.get(listItem).setType(type);}
+
 
 
     void deleteAnime(int i){list.remove(i);}

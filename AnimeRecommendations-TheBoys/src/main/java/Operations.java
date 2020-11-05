@@ -262,7 +262,7 @@ public class Operations {
     void updateAnimeType(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
-        int type = Integer.parseInt(msgArray[2]);
+        String type = msgArray[2];
         boolean found = false;
         Anime foundAnime = new Anime();
 
@@ -271,7 +271,7 @@ public class Operations {
             if(animeName.toUpperCase().replaceAll("\\s+","").equals
                     (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
                 foundAnime = exampleAnime;
-                list.updateMembers(i,type);
+                list.updateType(i,type);
                 found = true;
             }
         }
@@ -288,7 +288,7 @@ public class Operations {
     void updateAnimeGenre(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
-        int genre = Integer.parseInt(msgArray[2]);
+        String genre = msgArray[2];
         boolean found = false;
         Anime foundAnime = new Anime();
 
@@ -297,7 +297,7 @@ public class Operations {
             if(animeName.toUpperCase().replaceAll("\\s+","").equals
                     (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
                 foundAnime = exampleAnime;
-                list.updateMembers(i,genre);
+                list.updateGenre(i,genre);
                 found = true;
             }
         }
