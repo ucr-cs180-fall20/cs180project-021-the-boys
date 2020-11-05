@@ -136,5 +136,44 @@ public class MakeChart {
             e.printStackTrace();
         }
     }
+    public void createBarGraph(String title,DefaultCategoryDataset dataset){
+        JFreeChart chart = ChartFactory.createLineChart(title, "Type", "Value", dataset);
+
+        LegendTitle l = chart.getLegend();
+        l.setItemFont(new Font("Arial",Font.BOLD, 16));
+
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+
+        // customise the range axis...
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        rangeAxis.setAutoRangeIncludesZero(false);
+
+        // customise the renderer...
+        BarRenderer renderer = new BarRenderer();
+        renderer.setDrawBarOutline(true);
+        renderer.setIncludeBaseInRange(false);
+        plot.setRenderer(renderer);
+
+        renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        renderer.setDefaultItemLabelsVisible(true);
+        renderer.setDefaultItemLabelPaint(Color.yellow);
+        renderer.setDefaultItemLabelFont(new Font("Arial", Font.BOLD,16));
+        renderer.setDefaultPositiveItemLabelPosition(new ItemLabelPosition(
+                ItemLabelAnchor.INSIDE6, TextAnchor.BOTTOM_CENTER));
+
+        // set up gradient paints for series...
+        renderer.setSeriesPaint(0, new Color(0,0,170));
+        renderer.setSeriesPaint(1, new Color(0,170,0));
+
+
+        File image = new File("temp.png");
+        try {
+            ChartUtils.saveChartAsPNG(image, chart, 1800,1000 );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

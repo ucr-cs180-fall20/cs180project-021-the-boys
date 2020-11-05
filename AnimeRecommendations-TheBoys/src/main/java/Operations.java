@@ -1,9 +1,22 @@
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -38,6 +51,8 @@ public class Operations {
         msgBuilder.setFooter("text on bottom");
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
+
+
 
     void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
@@ -364,5 +379,23 @@ public class Operations {
         MakeChart chart = new MakeChart();
         chart.createTestBarChart("Test Chart");
         event.getChannel().sendFile(new File("temp.png")).complete();
+    }
+    void barGraph(MessageReceivedEvent event){
+        String input1 = event.getMessage().getContentRaw();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        if(input1.startsWith("&")){
+            input1 = input1.substring(1);
+            if(input1.equals("top10ratings")){
+                for(int i = 0; i <= 10; i++) {
+                    Anime exampleAnime = list.getList().get(i);
+                    dataset.addValue(exampleAnime.getRating(), "Row " + i, exampleAnime.getName());
+
+                }
+                MakeChart chart = new MakeChart();
+                chart.createBarGraph("Ratings",dataset);
+                event.getChannel().sendFile(new File("temp.png")).complete();
+
+            }
+        }
     }
 }
