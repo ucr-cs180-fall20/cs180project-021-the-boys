@@ -388,7 +388,7 @@ public class Operations {
             if(input1.equals("top10ratings")){
                 for(int i = 0; i <= 10; i++) {
                     Anime exampleAnime = list.getList().get(i);
-                    dataset.addValue(exampleAnime.getRating(), "Row " + i, exampleAnime.getName());
+                    dataset.addValue(exampleAnime.getRating(), exampleAnime.getName(), " ");
 
                 }
                 MakeChart chart = new MakeChart();
