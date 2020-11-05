@@ -30,7 +30,7 @@ public class MakeChart {
     public void createTestPieChart(String title) {
         DefaultPieDataset dataset = new DefaultPieDataset();
         dataset.setValue("Drama", 27.8);
-        dataset.setValue("Hentai", 55.3);
+        dataset.setValue("Sports", 55.3);
         dataset.setValue("School", 16.8);
         dataset.setValue("Shounen", 17.1);
 
@@ -60,7 +60,7 @@ public class MakeChart {
 
         // using random colors for chart and white borders for the section colours
         Random rand = new Random();
-        plot.setSectionPaint("Hentai", new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)));
+        plot.setSectionPaint("Sports", new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)));
         plot.setSectionPaint("Drama", new Color(0,rand.nextInt(255),rand.nextInt(255)));
         plot.setSectionPaint("School", new Color(rand.nextInt(255),0,rand.nextInt(255)));
         plot.setSectionPaint("Shounen", new Color(rand.nextInt(255),rand.nextInt(255),0));
@@ -136,8 +136,9 @@ public class MakeChart {
             e.printStackTrace();
         }
     }
+
     public void createBarGraph(String title,DefaultCategoryDataset dataset){
-        JFreeChart chart = ChartFactory.createLineChart(title, "Type", "Value", dataset);
+        JFreeChart chart = ChartFactory.createLineChart(title, "Anime", "Rating", dataset);
 
         LegendTitle l = chart.getLegend();
         l.setItemFont(new Font("Arial",Font.BOLD, 16));
@@ -147,7 +148,7 @@ public class MakeChart {
         // customise the range axis...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        rangeAxis.setAutoRangeIncludesZero(false);
+        rangeAxis.setAutoRangeIncludesZero(true);
 
         // customise the renderer...
         BarRenderer renderer = new BarRenderer();
@@ -155,17 +156,18 @@ public class MakeChart {
         renderer.setIncludeBaseInRange(false);
         plot.setRenderer(renderer);
 
+        plot.setWeight(500);
+
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         renderer.setDefaultItemLabelsVisible(true);
-        renderer.setDefaultItemLabelPaint(Color.yellow);
+        renderer.setDefaultItemLabelPaint(Color.BLACK);
         renderer.setDefaultItemLabelFont(new Font("Arial", Font.BOLD,16));
         renderer.setDefaultPositiveItemLabelPosition(new ItemLabelPosition(
                 ItemLabelAnchor.INSIDE6, TextAnchor.BOTTOM_CENTER));
 
         // set up gradient paints for series...
-        renderer.setSeriesPaint(0, new Color(0,0,170));
-        renderer.setSeriesPaint(1, new Color(0,170,0));
-
+        //renderer.setSeriesPaint(0, new Color(0,0,170));
+        //renderer.setSeriesPaint(1, new Color(0,170,0));
 
         File image = new File("temp.png");
         try {
