@@ -277,7 +277,7 @@ public class Operations {
         }
         if(found){
             event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
-                    + "\"'s** watched to **" + type + "**" +
+                    + "\"'s** type to **" + type + "**" +
                     "\n Don't forget to save list after updating an item!").complete();
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
@@ -303,7 +303,7 @@ public class Operations {
         }
         if(found){
             event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
-                    + "\"'s** watched to **" + genre + "**" +
+                    + "\"'s** genre(s) to **" + genre + "**" +
                     "\n Don't forget to save list after updating an item!").complete();
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
