@@ -136,5 +136,7 @@ class animeList {
 
     void updateMembers(int listItem, int members){list.get(listItem).setMembers(members);}
 
+
+
     void deleteAnime(int i){list.remove(i);}
 }

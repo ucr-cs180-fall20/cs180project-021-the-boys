@@ -258,6 +258,58 @@ public class Operations {
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
 
+    //added updated anime type
+    void updateAnimeType(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        int type = Integer.parseInt(msgArray[2]);
+        boolean found = false;
+        Anime foundAnime = new Anime();
+
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                list.updateMembers(i,type);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
+                    + "\"'s** watched to **" + type + "**" +
+                    "\n Don't forget to save list after updating an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+
+    }
+
+    //addend updated anime genre
+    void updateAnimeGenre(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        int genre = Integer.parseInt(msgArray[2]);
+        boolean found = false;
+        Anime foundAnime = new Anime();
+
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                list.updateMembers(i,genre);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
+                    + "\"'s** watched to **" + genre + "**" +
+                    "\n Don't forget to save list after updating an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+
+    }
+
     void deleteAnime(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];

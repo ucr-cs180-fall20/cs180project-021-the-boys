@@ -50,6 +50,13 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("updateAW")){
                 op.updateAnimeWatched(event);
             }
+            //added two more updates "type and genre"
+            if(event.getMessage().getContentRaw().startsWith("updateAT")){
+                op.updateAnimeType(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("updateAG")){
+                op.updateAnimeGenre(event);
+            }
             if(event.getMessage().getContentRaw().startsWith("deleteA")){
                 op.deleteAnime(event);
             }
