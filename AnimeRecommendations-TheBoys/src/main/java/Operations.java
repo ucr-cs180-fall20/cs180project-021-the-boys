@@ -3,6 +3,7 @@ import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -351,5 +352,17 @@ public class Operations {
         msgBuilder.addField("Rating", "" + newAnime.getRating(), false);
         msgBuilder.addField("Watched","" + newAnime.getMembers(), false);
         event.getChannel().sendMessage(msgBuilder.build()).complete();
+    }
+
+    void testPieChart(MessageReceivedEvent event){
+        MakeChart chart = new MakeChart();
+        chart.createTestPieChart("Test Chart");
+        event.getChannel().sendFile(new File("temp.png")).complete();
+    }
+
+    void testBarChart(MessageReceivedEvent event){
+        MakeChart chart = new MakeChart();
+        chart.createTestBarChart("Test Chart");
+        event.getChannel().sendFile(new File("temp.png")).complete();
     }
 }
