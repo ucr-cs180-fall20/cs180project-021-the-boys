@@ -18,4 +18,5 @@ public class Rating {
     public int getUser_id(){return user_id;}
 
     public int getRating(){return rating;}
+    public void setRating(int d){rating = d;}
 }

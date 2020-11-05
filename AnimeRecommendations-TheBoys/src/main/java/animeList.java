@@ -8,8 +8,8 @@ import java.util.List;
 
 class animeList {
     private static final String fileName = "anime.csv";
-    private static final String testSave = "saved.csv";
-    private static final String backupFile = "backupList.csv";
+    private static final String testSave = "savedAnime.csv";
+    private static final String backupFile = "backupListAnime.csv";
     List<Anime> list = new ArrayList<Anime>();
 
     String line;
@@ -72,15 +72,6 @@ class animeList {
             save = save.concat(Double.toString(anime.getRating())).concat(","); //Ratings
             save = save.concat(Integer.toString(anime.getMembers())).concat("\n"); //Members
         }
-        /* For the case in which there is no new line after the last element
-        save = save.concat(Integer.toString(list.get(list.size() - 1).getAnime_id())).concat(",");
-        save = save.concat(list.get(list.size() - 1).getName()).concat(",");
-        save = save.concat(list.get(list.size() - 1).getGenre()).concat(",");
-        save = save.concat(list.get(list.size() - 1).getType()).concat(",");
-        save = save.concat(Integer.toString(list.get(list.size() - 1).getEpisodes())).concat(",");
-        save = save.concat(Double.toString(list.get(list.size() - 1).getRating())).concat(",");
-        save = save.concat(Integer.toString(list.get(list.size() - 1).getMembers()));
-         */
 
         try{
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(testSave));
@@ -107,15 +98,7 @@ class animeList {
             saveBU = saveBU.concat(Double.toString(anime.getRating())).concat(","); //Ratings
             saveBU = saveBU.concat(Integer.toString(anime.getMembers())).concat("\n"); //Members
         }
-        /*
-        saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getAnime_id())).concat(",");
-        saveBU = saveBU.concat(list.get(list.size() - 1).getName()).concat(",");
-        saveBU = saveBU.concat(list.get(list.size() - 1).getGenre()).concat(",");
-        saveBU = saveBU.concat(list.get(list.size() - 1).getType()).concat(",");
-        saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getEpisodes())).concat(",");
-        saveBU = saveBU.concat(Double.toString(list.get(list.size() - 1).getRating())).concat(",");
-        saveBU = saveBU.concat(Integer.toString(list.get(list.size() - 1).getMembers()));
-        */
+
         try{
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(backupFile));
             //save list to files
