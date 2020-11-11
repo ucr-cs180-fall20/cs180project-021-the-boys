@@ -55,8 +55,6 @@ public class Operations {
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
 
-
-
     void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
@@ -397,9 +395,10 @@ public class Operations {
         event.getChannel().sendFile(new File("temp.png")).complete();
     }
     void barGraph(MessageReceivedEvent event){
+        boolean found = false;
         String input1 = event.getMessage().getContentRaw();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        if(input1.startsWith("&")){
+        if(input1.startsWith("$")){
             input1 = input1.substring(1);
             if(input1.equals("top10ratings")){
                 for(int i = 0; i <= 10; i++) {
@@ -413,5 +412,55 @@ public class Operations {
 
             }
         }
+        if(input1.startsWith("rgraph")){
+            input1 = input1.substring(6);
+            input1 = input1.replaceAll("\\s+","");
+            String[] newinput = input1.split("&");
+            for(int w = 0; w < newinput.length; w++){
+                for (int j = 0; j <= list.getSize()-1 ; j++) {
+                    Anime exampleAnime1 = list.getList().get(j);
+                    if (newinput[w].toUpperCase().equals(exampleAnime1.getName().toUpperCase().replaceAll("\\s+", ""))) {
+                        dataset.addValue(exampleAnime1.getRating(), exampleAnime1.getName(), " ");
+                        found = true;
+
+                    }
+                }
+            }
+            if (!found)
+            {
+                event.getChannel().sendMessage("no results found").complete();
+            }
+            else {
+                MakeChart chart = new MakeChart();
+                chart.createBarGraph("RATINGS", dataset);
+                event.getChannel().sendFile(new File("temp.png")).complete();
+            }
+        }
+        if(input1.startsWith("egraph")){
+            input1 = input1.substring(6);
+            input1 = input1.replaceAll("\\s+","");
+            String[] newinput = input1.split("&");
+            for(int w = 0; w < newinput.length; w++){
+                for (int j = 0; j <= list.getSize()-1 ; j++) {
+                    Anime exampleAnime1 = list.getList().get(j);
+                    if (newinput[w].toUpperCase().equals(exampleAnime1.getName().toUpperCase().replaceAll("\\s+", ""))) {
+                        dataset.addValue(exampleAnime1.getEpisodes(), exampleAnime1.getName(), " ");
+                        found = true;
+
+                    }
+                }
+            }
+            if (!found)
+            {
+                event.getChannel().sendMessage("no results found").complete();
+            }
+            else {
+                MakeChart chart = new MakeChart();
+                chart.createBarGraph("EPISODES", dataset);
+                event.getChannel().sendFile(new File("temp.png")).complete();
+            }
+
+        }
+
     }
 }

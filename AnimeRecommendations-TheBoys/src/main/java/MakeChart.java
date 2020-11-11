@@ -138,7 +138,7 @@ public class MakeChart {
     }
 
     public void createBarGraph(String title,DefaultCategoryDataset dataset){
-        JFreeChart chart = ChartFactory.createLineChart(title, "Anime", "Rating", dataset);
+        JFreeChart chart = ChartFactory.createLineChart(title, "Anime", " ", dataset);
 
         LegendTitle l = chart.getLegend();
         l.setItemFont(new Font("Arial",Font.BOLD, 16));

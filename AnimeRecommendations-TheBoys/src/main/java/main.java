@@ -80,6 +80,12 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("&")){
                 op.barGraph(event);
             }
+            if(event.getMessage().getContentRaw().startsWith("rgraph")){
+                op.barGraph(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("egraph")){
+                op.barGraph(event);
+            }
             if(event.getMessage().getContentRaw().startsWith("testpiechart")){
                 op.testPieChart(event);
             }
