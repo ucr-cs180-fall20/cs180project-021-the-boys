@@ -1,4 +1,7 @@
 import net.dv8tion.jda.api.*;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jfree.chart.ChartFactory;
@@ -117,17 +120,30 @@ public class Operations {
         }
     }
 
-    void animeListEmbed(MessageReceivedEvent event){
+    private int animeListPage = 0;
+    private String animeListSort;
+    MessageEmbed animeListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
         formatter.setTimeZone(TimeZone.getTimeZone("PST"));
         Date date = new Date();
-        int page = 0;
-        String contents[] = event.getMessage().getContentRaw().split(" ");
+        if(reset) {
+            animeListPage = 0;
+            animeListSort = message;
+        }
+        if(nextpage) {
+            if(animeListPage >= list.getSize()/15){
+                animeListPage = 0;
+            }
+            else animeListPage++;
+        }
+        if(previouspage) {
+            if(animeListPage == 0){
+                animeListPage = list.getSize()/15;
+            }
+            else animeListPage--;
+        }
 
-        if (contents.length > 1)
-            page = Integer.parseInt(contents[1]) - 1;
-
-        int startRank = page * 15;
+        int startRank = animeListPage * 15;
         int endRank = startRank + 15;
 
         List<Anime> listCopy = new ArrayList<>(list.getList());
@@ -135,14 +151,14 @@ public class Operations {
         // Collections.reverse(listCopy);
 
         //gets most watched
-        if(contents[0].equals("topw")){
+        if(animeListSort.equals("topw")){
             //listCopy = new ArrayList<>(list.getList());
             listCopy.sort(Comparator.comparing(Anime::getMembers));
             Collections.reverse(listCopy);
         }
 
         //gets the top rating
-        else if(contents[0].equals("topr")){
+        else if(animeListSort.equals("topr")){
             //listCopy = new ArrayList<>(list.getList());
             listCopy.sort(Comparator.comparing(Anime::getRating));
             Collections.reverse(listCopy);
@@ -190,16 +206,16 @@ public class Operations {
         descThree.append("```");
 
         EmbedBuilder lbBuilder = new EmbedBuilder();
-        lbBuilder.addField("Anime rankings - Page " + (page == 0 ? 1 : page + 1), desc.toString(), false);
+        lbBuilder.addField("Anime rankings - Page " + (animeListPage == 0 ? 1 : animeListPage + 1), desc.toString(), false);
 
-        if (page == 0)
+        if (animeListPage == 0)
             lbBuilder.addField("", descTwo.toString(), false);
         lbBuilder.addField("", descThree.toString(),false);
 
         lbBuilder.setColor(new Color(0, 153, 255));
         lbBuilder.setFooter("Today at " + formatter.format(date),
                 "https://cdn.frankerfacez.com/emoticon/251321/4");
-        event.getChannel().sendMessage(lbBuilder.build()).complete();
+        return lbBuilder.build();
     }
 
     void updateAnimeEpisodes(MessageReceivedEvent event){
