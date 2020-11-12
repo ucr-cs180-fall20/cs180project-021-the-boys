@@ -44,6 +44,10 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("!") || event.getMessage().getContentRaw().startsWith("$")){
                 op.searchFunction(event);
             }
+
+            if(event.getMessage().getContentRaw().startsWith("random")){
+                op.randomAnime(event);
+            }
             if(event.getMessage().getContentRaw().equals("save")){
                 op.saveList(event);
                 System.out.println("Replied: Saving CSV");

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.Random;
 
 public class Operations {
     private final animeList list = new animeList();
@@ -339,6 +340,38 @@ public class Operations {
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
 
     }
+
+    //function for bringing up a random anime to watch
+    void randomAnime(MessageReceivedEvent event){
+        String input = event.getMessage().getContentRaw();
+        boolean found = false;
+        if(input.startsWith("random")){
+
+            Anime randAnime = getRandom();
+
+            EmbedBuilder msgBuilder = new EmbedBuilder();
+            msgBuilder.setTitle(randAnime.getName());
+            msgBuilder.addField("Genre",randAnime.getGenre(), false);
+            msgBuilder.addField("Episodes", ""+randAnime.getEpisodes(), false);
+            msgBuilder.addField("Rating", ""+ randAnime.getRating(), false);
+
+            event.getChannel().sendMessage(msgBuilder.build()).complete();
+            found = true;
+
+            if(found){
+                event.getChannel().sendMessage("Random Anime **" + randAnime.getName() + "**").complete();
+            }
+        }
+    }
+
+    Anime getRandom(){
+        Random random = new Random();
+        int index = random.nextInt(list.getSize());
+        return list.list.get(index);
+
+    }
+
+
 
     void deleteAnime(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
