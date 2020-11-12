@@ -17,6 +17,7 @@ public class main extends ListenerAdapter {
 
     Message testMessage;
     Message animeListEmbed;
+    Message favoriteListEmbed;
 
     public static void main(String[] args) throws  LoginException {
         op = new Operations();
@@ -41,10 +42,15 @@ public class main extends ListenerAdapter {
                 animeListEmbed.addReaction("U+2b05").complete();
                 animeListEmbed.addReaction("U+27a1").complete();
             }
+            if(event.getMessage().getContentRaw().startsWith("ftop")){
+                MessageEmbed temp = op.favoriteListEmbed(event.getMessage().getContentRaw(),true, false, false);
+                favoriteListEmbed = event.getChannel().sendMessage(temp).complete();
+                favoriteListEmbed.addReaction("U+2b05").complete();
+                favoriteListEmbed.addReaction("U+27a1").complete();
+            }
             if(event.getMessage().getContentRaw().startsWith("!") || event.getMessage().getContentRaw().startsWith("$")){
                 op.searchFunction(event);
             }
-
             if(event.getMessage().getContentRaw().startsWith("random")){
                 op.randomAnime(event);
             }
@@ -55,6 +61,10 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().equals("backup")){
                 op.backUp(event);
                 System.out.println("Replied: Backing up CSV");
+            }
+            if(event.getMessage().getContentRaw().equals("fexport")){
+                op.exportSave(event);
+                System.out.println("Replied: Saving Favorite List");
             }
             if(event.getMessage().getContentRaw().startsWith("updateAE")){
                 op.updateAnimeEpisodes(event);
@@ -75,8 +85,14 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("deleteA")){
                 op.deleteAnime(event);
             }
+            if(event.getMessage().getContentRaw().startsWith("deleteF")){
+                op.deleteFavorite(event);
+            }
             if(event.getMessage().getContentRaw().startsWith("addA")){
                 op.addAnimeToList(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("favorite")){
+                op.save(event);
             }
             if(event.getMessage().getContentRaw().startsWith("testbarchart")){
                 op.testBarChart(event);
@@ -112,6 +128,14 @@ public class main extends ListenerAdapter {
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+27a1")) {
                         MessageEmbed temp = op.animeListEmbed("", false, true, false);
                         animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    }
+                } else if (event.getMessageId().equals(favoriteListEmbed.getId())) {
+                    if (event.getReactionEmote().getAsCodepoints().equals("U+2b05")) {
+                        MessageEmbed temp = op.animeListEmbed("", false, false, true);
+                        favoriteListEmbed = favoriteListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+27a1")) {
+                        MessageEmbed temp = op.animeListEmbed("", false, true, false);
+                        favoriteListEmbed = favoriteListEmbed.editMessage(temp).complete();
                     }
                 } else if (event.getMessageId().equals(testMessage.getId())) {
                     if (event.getReactionEmote().getAsCodepoints().equals("U+2b05")) {

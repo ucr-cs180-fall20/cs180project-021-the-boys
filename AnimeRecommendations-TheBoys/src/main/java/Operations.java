@@ -27,6 +27,7 @@ import java.util.Random;
 
 public class Operations {
     private final animeList list = new animeList();
+    private final favoriteList favorites = new favoriteList();
 
     Operations(){
 
@@ -496,4 +497,157 @@ public class Operations {
         }
 
     }
+
+    void save(MessageReceivedEvent event){
+        String input = event.getMessage().getContentRaw();
+        boolean exists = false;
+        boolean found = false;
+        if(input.startsWith("favorite")){
+            input = input.substring(8);
+            for(int j = 0; j <= favorites.getSize()-1; j++){
+                Anime favorite = favorites.getList().get(j);
+                if (input.toUpperCase().replaceAll("\\s+","").equals(favorite.getName().toUpperCase().replaceAll("\\s+",""))){
+                    event.getChannel().sendMessage("Anime already in list.").complete();
+                    exists = true;
+                }
+            }
+            if(!exists) {
+                for (int i = 0; i <= list.getSize() - 1; i++) {
+                    Anime anime = list.getList().get(i);
+                    if (input.toUpperCase().replaceAll("\\s+", "").equals(anime.getName().toUpperCase().replaceAll("\\s+", ""))) {
+                        favorites.add(anime);
+                        event.getChannel().sendMessage(anime.getName() + " added to the favorite list.").complete();
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    event.getChannel().sendMessage("no results found").complete();
+                }
+            }
+        }
+    }
+
+    void exportSave(MessageReceivedEvent event){
+        event.getChannel().sendMessage("Exporting favorites, please wait...").complete();
+        favorites.write();
+        event.getChannel().sendMessage("Favorites exported!").complete();
+    }
+
+    MessageEmbed favoriteListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
+        formatter.setTimeZone(TimeZone.getTimeZone("PST"));
+        Date date = new Date();
+        if(reset) {
+            animeListPage = 0;
+            animeListSort = message;
+        }
+        if(nextpage) {
+            if(animeListPage >= favorites.getSize()/15){
+                animeListPage = 0;
+            }
+            else animeListPage++;
+        }
+        if(previouspage) {
+            if(animeListPage == 0){
+                animeListPage = favorites.getSize()/15;
+            }
+            else animeListPage--;
+        }
+
+        int startRank = animeListPage * 15;
+        int endRank = startRank + 15;
+
+        List<Anime> listCopy = new ArrayList<>(favorites.getList());
+        //listCopy.sort(Comparator.comparing(Anime::getMembers));
+        // Collections.reverse(listCopy);
+
+        //gets most watched
+        if(animeListSort.equals("ftopw")){
+            //listCopy = new ArrayList<>(list.getList());
+            listCopy.sort(Comparator.comparing(Anime::getMembers));
+            Collections.reverse(listCopy);
+        }
+
+        //gets the top rating
+        else if(animeListSort.equals("ftopr")){
+            //listCopy = new ArrayList<>(list.getList());
+            listCopy.sort(Comparator.comparing(Anime::getRating));
+            Collections.reverse(listCopy);
+        }
+
+        StringBuilder desc = new StringBuilder("```css\nRank   " + String.format("%-20s", "Anime") + "Rating  Type  " +
+                "Episodes  Watched\n```");
+        StringBuilder descTwo = new StringBuilder("```fix\n");
+        StringBuilder descThree = new StringBuilder("```\n");
+        for (int i = startRank; i < endRank; ++i)
+        {
+            if (i < listCopy.size())
+            {
+                Anime local = listCopy.get(i);
+                if (local != null)
+                {
+                    if (i > 4)
+                    {
+                        int maxLengthName = (local.getName().length() < 20)?local.getName().length():20;
+                        int maxLengthType = (local.getType().length() < 5)?local.getType().length():5;
+                        descThree.append(i + 1)
+                                .append(i > 8 ? ". " : ".  ")
+                                .append(String.format("%-20s\t", local.getName().substring(0, maxLengthName)))
+                                .append(String.format("%-4s\t", local.getRating()))
+                                .append(String.format("%-5s\t", local.getType().substring(0, maxLengthType)))
+                                .append(String.format("%-3s\t", local.getEpisodes()))
+                                .append(String.format("%-5s", local.getMembers())+"\n");
+                    }
+                    else
+                    {
+                        int maxLengthName = (local.getName().length() < 20)?local.getName().length():20;
+                        int maxLengthType = (local.getType().length() < 5)?local.getType().length():5;
+                        descTwo.append(i + 1)
+                                .append(".  ")
+                                .append(String.format("%-20s\t", local.getName().substring(0, maxLengthName)))
+                                .append(String.format("%-4s\t", local.getRating()))
+                                .append(String.format("%-5s\t", local.getType().substring(0, maxLengthType)))
+                                .append(String.format("%-3s\t", local.getEpisodes()))
+                                .append(String.format("%-5s", local.getMembers())+"\n");
+                    }
+                }
+            }
+        }
+        descTwo.append("```");
+        descThree.append("```");
+
+        EmbedBuilder lbBuilder = new EmbedBuilder();
+        lbBuilder.addField("Anime rankings - Page " + (animeListPage == 0 ? 1 : animeListPage + 1), desc.toString(), false);
+
+        if (animeListPage == 0)
+            lbBuilder.addField("", descTwo.toString(), false);
+        lbBuilder.addField("", descThree.toString(),false);
+
+        lbBuilder.setColor(new Color(0, 153, 255));
+        lbBuilder.setFooter("Today at " + formatter.format(date),
+                "https://cdn.frankerfacez.com/emoticon/251321/4");
+        return lbBuilder.build();
+    }
+
+    void deleteFavorite(MessageReceivedEvent event){
+        String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
+        String animeName = msgArray[1];
+        Anime foundAnime = new Anime();
+        boolean found = false;
+        for(int i = 0; i <= favorites.getSize()-1; i++){
+            Anime exampleAnime = favorites.getList().get(i);
+            if(animeName.toUpperCase().replaceAll("\\s+","").equals
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = exampleAnime;
+                favorites.deleteFavorite(i);
+                found = true;
+            }
+        }
+        if(found){
+            event.getChannel().sendMessage("Deleted **\"" + foundAnime.getName()+ "\"** from the favorite list" +
+                    "\n Don't forget to save the list after removing an item!").complete();
+        }
+        else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
+    }
+
 }
