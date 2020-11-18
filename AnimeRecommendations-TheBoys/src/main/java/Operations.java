@@ -528,7 +528,7 @@ public class Operations {
             event.getChannel().sendFile(new File("temp.png")).complete();
         }
     }
-    
+
      */
 
     void barGraph(MessageReceivedEvent event){
