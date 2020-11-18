@@ -16,10 +16,12 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.HistogramDataset;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -27,6 +29,11 @@ import java.util.Random;
 
 public class Operations {
     private final animeList list = new animeList();
+    //don't uncomment this one unless you want to see how long it would take to
+    //parse through the second file that is really long
+    //I say Brian will take over 20 minutes or just crash, requires at least
+    //700 Mb's of ram available to run
+    //private final ratingList rlist = new ratingList();
     private final favoriteList favorites = new favoriteList();
 
     Operations(){
@@ -55,6 +62,34 @@ public class Operations {
         msgBuilder.addField("field title 4", "content without inline", false);
         msgBuilder.setFooter("text on bottom");
         event.getChannel().sendMessage(msgBuilder.build()).complete();
+    }
+
+    MessageEmbed startMenu(){
+        EmbedBuilder msgBuilder = new EmbedBuilder();
+        msgBuilder.setTitle("Help Menu");
+        msgBuilder.addField("!menu/!help","Sends a message of this menu.",false);
+        msgBuilder.addField("!top","Sends a message of the top anime.",false);
+        msgBuilder.addField("!ftop","Sends a message of your favorite anime.",false);
+        msgBuilder.addField("!searcha","Search for a specific anime. (ex: !searcha Death Note)",false);
+        msgBuilder.addField("!searchw","Search for a specific word in anime titles. (ex: !searchw death)",false);
+        msgBuilder.addField("!random","Gives you a random anime in the list of over 10,000 anime.",false);
+        msgBuilder.addField("!favorite","Saves x anime to favorites. (ex: !favorite Death Note)",false);
+        msgBuilder.addField("!deleteF","Deletes x anime from favorites. (ex: !deleteF [Death Note])",false);
+        msgBuilder.addField("","",false);
+        msgBuilder.addField("!bargraph","Shows an image of a graph for specified parameters.",false);
+        msgBuilder.addField("!rgraph","Shows an image of a graph that compares **ratings** of different anime.",false);
+        msgBuilder.addField("!egraph","Shows an image of a graph that compares **episodes** of specified anime.",false);
+        msgBuilder.addField("!ratings","Shows an image of a graph that compares **episodes** of a specific anime.",false);
+        msgBuilder.addField("!genrepie","Shows an image of a graph that compares **episodes** of a specific anime.",false);
+        msgBuilder.addField("","",false);
+        msgBuilder.addField("!addA","Adds empty anime with specified name. (ex: !addA [Red])",false);
+        msgBuilder.addField("!updateAR","Changes anime **rating** to specified. (ex: !updateAR [Red][8.67])",false);
+        msgBuilder.addField("!updateAT","Changes anime **type** to specified. (ex: !updateAT [Red][TV])",false);
+        msgBuilder.addField("!updateAE","Changes anime **episodes** to specified. (ex: !updateAE [Red][25])",false);
+        msgBuilder.addField("!updateAW","Changes anime **watched** to specified. (ex: !updateAW [Red][932492])",false);
+        msgBuilder.addField("!updateAG","Changes anime **genre** to specified. (ex: !updateAG [Red][Adventure, Comedy])",false);
+        msgBuilder.addField("!deleteA","Deletes specified anime. (ex: !deleteA [Red])",false);
+        return msgBuilder.build();
     }
 
     void searchFunction(MessageReceivedEvent event){
@@ -428,6 +463,74 @@ public class Operations {
         chart.createTestBarChart("Test Chart");
         event.getChannel().sendFile(new File("temp.png")).complete();
     }
+
+    /*
+    String[] genres = new String[500];
+    int genrecount = 0;
+    void checkGenres(String genre){
+        boolean found = false;
+        for(int i = 0; i < genres.length; i++){
+            if(genre != genres[i]) found = true;
+        }
+        if (!found) genres[genrecount] = genre;
+    }
+    void genrePieGraph(MessageReceivedEvent event){
+        StringBuilder coolstring = new StringBuilder();
+        for(int i = 0; i < list.getSize(); i++){
+            Anime tempAnime = list.getList().get(i);
+            String temp1 = tempAnime.getGenre().replace('\"',' ');
+            String[] tempgenres = temp1.split(",");
+            for(int j = 0; j < tempgenres.length; j++){
+                checkGenres(tempgenres[j]);
+            }
+        }
+        for(int i = 0; i < genres.length; i++){
+            coolstring.append(genres[i] + "\n");
+        }
+        event.getChannel().sendMessage(coolstring.toString()).complete();
+    }
+     */
+
+    //don't uncomment this one unless you want to see how long it would take to
+    //parse through the second file that is really long
+    //I say Brian will take over 20 minutes or just crash, requires at least
+    //700 Mb's of ram available to run
+    /*
+    void ratingsGraph(MessageReceivedEvent event){
+        String input = event.getMessage().getContentRaw();
+        boolean found = false;
+        input = input.substring(8);
+        Anime foundAnime = new Anime();
+        HistogramDataset dataset = new HistogramDataset();
+        int count = 0;
+        double[] values = new double[rlist.getSize()];
+        for(int i = 0; i <= list.getSize()-1; i++){
+            Anime exampleAnime = list.getList().get(i);
+            if (input.toUpperCase().replaceAll("\\s+","").equals(exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                foundAnime = list.getList().get(i);
+                found = true;
+            }
+        }
+        if(!found){
+            event.getChannel().sendMessage("Anime was not found!").complete();
+        }
+        else {
+            for(int i = 0; i <= rlist.getSize()-1; i++){
+                Rating rating = rlist.getList().get(i);
+                if(rating.getAnime_id() == foundAnime.getAnime_id()){
+                    values[count] = rating.getRating();
+                    count++;
+                }
+            }
+            dataset.addSeries(foundAnime.getName(),values,count);
+            MakeChart chart = new MakeChart();
+            chart.createHistogram(foundAnime.getName() + " Ratings", dataset);
+            event.getChannel().sendFile(new File("temp.png")).complete();
+        }
+    }
+    
+     */
+
     void barGraph(MessageReceivedEvent event){
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
@@ -498,7 +601,7 @@ public class Operations {
 
     }
 
-    void save(MessageReceivedEvent event){
+    void saveFavorite(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean exists = false;
         boolean found = false;
