@@ -1,3 +1,5 @@
 AnimeRecommendations-TheBoys/.gradle/*
 AnimeRecommendations-TheBoys/.idea/*
 AnimeRecommendations-TheBoys/build/*
+*.xml
+.idea/cs180project-021-the-boys.iml
