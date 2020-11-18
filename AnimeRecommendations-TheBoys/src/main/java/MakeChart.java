@@ -4,14 +4,19 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.jfree.chart.*;
+import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
+import org.jfree.chart.renderer.xy.StandardXYBarPainter;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.ui.HorizontalAlignment;
@@ -19,6 +24,7 @@ import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
+import org.jfree.data.statistics.HistogramDataset;
 
 public class MakeChart {
 
@@ -177,5 +183,28 @@ public class MakeChart {
         }
     }
 
+    public void createHistogram(String title, HistogramDataset dataset){
+        JFreeChart chart = ChartFactory.createHistogram(title, "Ratings", "Amount", dataset,
+                PlotOrientation.VERTICAL, true, true, false);
 
+        LegendTitle l = chart.getLegend();
+        l.setItemFont(new Font("Arial",Font.BOLD, 16));
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setAutoRangeIncludesZero(true);
+
+        XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(true);
+        renderer.setBarPainter(new StandardXYBarPainter());
+        renderer.setShadowVisible(false);
+
+        File image = new File("temp.png");
+        try {
+            ChartUtils.saveChartAsPNG(image, chart, 1800,1000 );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
