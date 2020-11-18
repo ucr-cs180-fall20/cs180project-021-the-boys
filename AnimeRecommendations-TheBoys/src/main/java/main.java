@@ -15,6 +15,7 @@ public class main extends ListenerAdapter {
     private static JDA jda;
     private static Operations op;
 
+    Message startMenu;
     Message testMessage;
     Message animeListEmbed;
     Message favoriteListEmbed;
@@ -32,87 +33,83 @@ public class main extends ListenerAdapter {
             if(event.getAuthor().isBot()) return;
             System.out.println("Message received: " + event.getMessage().getContentRaw() + "\n From: " + event.getAuthor().getName());
 
-            if(event.getMessage().getContentRaw().equals("hello")){
-                System.out.println("Replied: Hello World");
-                event.getChannel().sendMessage("Hello World!").complete();
+            if(event.getMessage().getContentRaw().equals("!menu") || event.getMessage().getContentRaw().equals("!help")){
+                startMenu = event.getChannel().sendMessage(op.startMenu()).complete();
             }
-            if(event.getMessage().getContentRaw().startsWith("top")){
+            if(event.getMessage().getContentRaw().startsWith("!top")){
                 MessageEmbed temp = op.animeListEmbed(event.getMessage().getContentRaw(),true, false, false);
                 animeListEmbed = event.getChannel().sendMessage(temp).complete();
                 animeListEmbed.addReaction("U+2b05").complete();
                 animeListEmbed.addReaction("U+27a1").complete();
             }
-            if(event.getMessage().getContentRaw().startsWith("ftop")){
+            if(event.getMessage().getContentRaw().startsWith("!ftop")){
                 MessageEmbed temp = op.favoriteListEmbed(event.getMessage().getContentRaw(),true, false, false);
                 favoriteListEmbed = event.getChannel().sendMessage(temp).complete();
                 favoriteListEmbed.addReaction("U+2b05").complete();
                 favoriteListEmbed.addReaction("U+27a1").complete();
             }
-            if(event.getMessage().getContentRaw().startsWith("!") || event.getMessage().getContentRaw().startsWith("$")){
+            if(event.getMessage().getContentRaw().startsWith("!searcha") || event.getMessage().getContentRaw().startsWith("!searchw")){
                 op.searchFunction(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("random")){
+            if(event.getMessage().getContentRaw().startsWith("!random")){
                 op.randomAnime(event);
             }
-            if(event.getMessage().getContentRaw().equals("save")){
+            if(event.getMessage().getContentRaw().equals("!save")){
                 op.saveList(event);
-                System.out.println("Replied: Saving CSV");
             }
-            if(event.getMessage().getContentRaw().equals("backup")){
+            if(event.getMessage().getContentRaw().equals("!backup")){
                 op.backUp(event);
-                System.out.println("Replied: Backing up CSV");
             }
-            if(event.getMessage().getContentRaw().equals("fexport")){
+            if(event.getMessage().getContentRaw().equals("!fexport")){
                 op.exportSave(event);
-                System.out.println("Replied: Saving Favorite List");
             }
-            if(event.getMessage().getContentRaw().startsWith("updateAE")){
+            if(event.getMessage().getContentRaw().startsWith("!updateAE")){
                 op.updateAnimeEpisodes(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("updateAR")){
+            if(event.getMessage().getContentRaw().startsWith("!updateAR")){
                 op.updateAnimeRating(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("updateAW")){
+            if(event.getMessage().getContentRaw().startsWith("!updateAW")){
                 op.updateAnimeWatched(event);
             }
             //added two more updates "type and genre"
-            if(event.getMessage().getContentRaw().startsWith("updateAT")){
+            if(event.getMessage().getContentRaw().startsWith("!updateAT")){
                 op.updateAnimeType(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("updateAG")){
+            if(event.getMessage().getContentRaw().startsWith("!updateAG")){
                 op.updateAnimeGenre(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("deleteA")){
+            if(event.getMessage().getContentRaw().startsWith("!deleteA")){
                 op.deleteAnime(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("deleteF")){
+            if(event.getMessage().getContentRaw().startsWith("!deleteF")){
                 op.deleteFavorite(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("addA")){
+            if(event.getMessage().getContentRaw().startsWith("!addA")){
                 op.addAnimeToList(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("favorite")){
-                op.save(event);
+            if(event.getMessage().getContentRaw().startsWith("!favorite")){
+                op.saveFavorite(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("testbarchart")){
-                op.testBarChart(event);
-            }
-            if(event.getMessage().getContentRaw().startsWith("&")){
+            if(event.getMessage().getContentRaw().startsWith("!bargraph")){
                 op.barGraph(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("rgraph")){
+            if(event.getMessage().getContentRaw().startsWith("!rgraph")){
                 op.barGraph(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("egraph")){
+            if(event.getMessage().getContentRaw().startsWith("!egraph")){
                 op.barGraph(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("testpiechart")){
-                op.testPieChart(event);
+            if(event.getMessage().getContentRaw().startsWith("!ratings")){
+                //don't uncomment this one unless you want to see how long it would take to
+                //parse through the second file that is really long
+                //I say Brian will take over 20 minutes or just crash, requires at least
+                //700 Mb's of ram available to run
+                //op.ratingsGraph(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("testreact")){
-                testMessage = event.getChannel().sendMessage("this should have a reaction on it").complete();
-                testMessage.addReaction("U+2b05").complete();
-                testMessage.addReaction("U+27a1").complete();
+            if(event.getMessage().getContentRaw().startsWith("!genrepie")){
+                //this one is messed up, needs fixing
+                //op.genrePieGraph(event);
             }
         }
     }
@@ -137,17 +134,9 @@ public class main extends ListenerAdapter {
                         MessageEmbed temp = op.animeListEmbed("", false, true, false);
                         favoriteListEmbed = favoriteListEmbed.editMessage(temp).complete();
                     }
-                } else if (event.getMessageId().equals(testMessage.getId())) {
-                    if (event.getReactionEmote().getAsCodepoints().equals("U+2b05")) {
-                        event.getChannel().sendMessage("Emote left").complete();
-                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+27a1")) {
-                        event.getChannel().sendMessage("Emote right").complete();
-                    }
                 }
             }
         }
-        catch (Exception e){
-
-        }
+        catch (Exception ignored){}
     }
 }
