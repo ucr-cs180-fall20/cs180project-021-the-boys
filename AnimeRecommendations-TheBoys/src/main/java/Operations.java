@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Operations {
     private final animeList list = new animeList();
@@ -711,7 +712,79 @@ public class Operations {
         }
 
     }
-//!favorite
+  
+    void genreBarGraph(MessageReceivedEvent event){
+        boolean found = false;
+        String input1 = event.getMessage().getContentRaw();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        ArrayList finalgenre = new ArrayList();
+        ArrayList finalgenre2 = new ArrayList() ;
+           // input1 = input1.substring(6);
+            for(int i = 0; i <= list.getSize()-1 ; i++){
+                Anime exampleAnime1 = list.getList().get(i);
+                String exampleanime3 = exampleAnime1.getGenre();
+                exampleanime3 = exampleanime3.replaceAll("\"","");
+                exampleanime3 = exampleanime3.replaceAll("\\s+","");
+                String[] input2 = exampleanime3.split(",");
+                for(int j = 0; j < input2.length; j++) {
+                        finalgenre.add(input2[j]);
+                }
+            }
+            Set set = new LinkedHashSet();
+            set.addAll(finalgenre);
+            finalgenre2.addAll(set);
+
+            if(input1.startsWith("!genre")){
+            /*for(Object charact: finalgenre){
+                if(!finalgenre2.contains(charact)){
+                    finalgenre2.add(charact);
+                }
+            }
+            */
+
+            EmbedBuilder msgBuilder = new EmbedBuilder();
+            msgBuilder.setTitle("Genres");
+            msgBuilder.setDescription(finalgenre2.toString());
+            event.getChannel().sendMessage(msgBuilder.build()).complete();
+
+        }
+        if(input1.startsWith("!bgenre")){
+            for(Object charac: finalgenre2) {
+                dataset.addValue(Collections.frequency(finalgenre,charac), (Comparable) charac," ");
+            }
+            MakeChart chart = new MakeChart();
+            chart.createBarGraph("Genres", dataset);
+            event.getChannel().sendFile(new File("temp.png")).complete();
+        }
+        if(input1.startsWith("!mbgenre")){
+            input1 = input1.substring(8);
+            input1 = input1.replaceAll("\\s+","");
+            String[] newinput = input1.split("&");
+
+            for(int i =0; i<= finalgenre.size()-1; i++){
+                finalgenre.set(i,finalgenre.get(i).toString().toUpperCase());
+            }
+
+
+            for(String charac: newinput) {
+                for(int i = 0; i<= finalgenre.size()-1;i++) {
+                    if (charac.toUpperCase().equals(finalgenre.get(i))) {
+                        dataset.addValue(Collections.frequency(finalgenre, charac.toUpperCase()), (Comparable) charac, " ");
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
+                event.getChannel().sendMessage("no results found").complete();
+            }
+            else {
+                MakeChart chart = new MakeChart();
+                chart.createBarGraph("Genres", dataset);
+                event.getChannel().sendFile(new File("temp.png")).complete();
+            }
+        }
+    }
+  
     void saveFavorite(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean exists = false;
