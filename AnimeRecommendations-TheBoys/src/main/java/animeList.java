@@ -19,7 +19,7 @@ class animeList {
             BufferedReader reader = Files.newBufferedReader(Paths.get(fileName));
             while((line = reader.readLine()) != null){
                 String[] tokens2 = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                int anime_id = Integer.parseInt(tokens2[0]);
+                String anime_id = tokens2[0];
                 System.out.println(anime_id);
                 String name = tokens2[1];
                 System.out.println(name);
@@ -64,7 +64,7 @@ class animeList {
         String save = ""; //String to be store
 
         for (Anime anime : list) { //per row
-            save = save.concat(Integer.toString(anime.getAnime_id())).concat(","); //ID
+            save = save.concat(anime.getAnime_id()).concat(","); //ID
             save = save.concat(anime.getName()).concat(","); //Name
             save = save.concat(anime.getGenre()).concat(","); //Genre
             save = save.concat(anime.getType()).concat(","); //Type
@@ -90,7 +90,7 @@ class animeList {
         String saveBU = "";
 
         for (Anime anime : list) { //per row
-            saveBU = saveBU.concat(Integer.toString(anime.getAnime_id())).concat(","); //ID
+            saveBU = saveBU.concat(anime.getAnime_id()).concat(","); //ID
             saveBU = saveBU.concat(anime.getName()).concat(","); //Name
             saveBU = saveBU.concat(anime.getGenre()).concat(","); //Genre
             saveBU = saveBU.concat(anime.getType()).concat(","); //Type

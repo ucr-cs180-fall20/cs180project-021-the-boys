@@ -13,9 +13,9 @@ public class Rating {
         rating = _rating;
     }
 
-    public int getAnime_id(){return Integer.parseInt(anime_id);}
+    public String getAnime_id(){return anime_id;}
 
-    public int getUser_id(){return Integer.parseInt(user_id);}
+    public String getUser_id(){return user_id;}
 
     public int getRating(){return Integer.parseInt(rating);}
 

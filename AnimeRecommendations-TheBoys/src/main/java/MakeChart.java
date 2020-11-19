@@ -25,6 +25,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.statistics.SimpleHistogramDataset;
 
 public class MakeChart {
 
@@ -183,7 +184,7 @@ public class MakeChart {
         }
     }
 
-    public void createHistogram(String title, HistogramDataset dataset){
+    public void createHistogram(String title, SimpleHistogramDataset dataset){
         JFreeChart chart = ChartFactory.createHistogram(title, "Ratings", "Amount", dataset,
                 PlotOrientation.VERTICAL, true, true, false);
 
@@ -191,6 +192,9 @@ public class MakeChart {
         l.setItemFont(new Font("Arial",Font.BOLD, 16));
 
         XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setDomainPannable(true);
+        plot.setRangePannable(true);
+        plot.setForegroundAlpha(0.85f);
 
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setAutoRangeIncludesZero(true);
