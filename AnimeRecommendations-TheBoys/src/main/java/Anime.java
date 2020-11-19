@@ -1,5 +1,5 @@
 public class Anime{
-    private int anime_id;
+    private String anime_id;
     private String name;
     private String genre;
     private String type;
@@ -11,7 +11,7 @@ public class Anime{
 
     }
 
-    Anime(int _anime_id, String _name, String _genre, String _type, int _episodes, double _rating, int _members){
+    Anime(String _anime_id, String _name, String _genre, String _type, int _episodes, double _rating, int _members){
         anime_id = _anime_id;
         name = _name;
         genre = _genre;
@@ -21,7 +21,7 @@ public class Anime{
         members = _members;
     }
 
-    public int getAnime_id(){return anime_id;}
+    public String getAnime_id(){return anime_id;}
 
     public String getName(){return name;}
 
