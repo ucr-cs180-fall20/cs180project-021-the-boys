@@ -35,7 +35,7 @@ public class Operations {
     //parse through the second file that is really long
     //I say Brian will take over 20 minutes or just crash, requires at least
     //700 Mb's of ram available to run
-    //private final ratingList rlist = new ratingList();
+    private final ratingList rlist = new ratingList();
     private final favoriteList favorites = new favoriteList();
 
     Operations(){
@@ -514,7 +514,6 @@ public class Operations {
     //parse through the second file that is really long
     //I say Brian will take over 20 minutes or just crash, requires at least
     //700 Mb's of ram available to run
-
     /*
     void ratingsGraph(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
@@ -607,7 +606,7 @@ public class Operations {
             event.getChannel().sendFile(new File("temp.png")).complete();
         }
     }
-
+    
      */
 
     void barGraph(MessageReceivedEvent event){
