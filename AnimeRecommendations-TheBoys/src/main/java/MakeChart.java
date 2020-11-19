@@ -34,7 +34,7 @@ public class MakeChart {
     }
 
     //Pie chart example
-    public void createTestPieChart(String title, DefaultPieDataset dataset) {
+    public void createPieChart(String title, DefaultPieDataset dataset) {
         JFreeChart chart = ChartFactory.createPieChart(
                 title, // chart title
                 dataset, // data
@@ -63,7 +63,7 @@ public class MakeChart {
         plot.setDefaultSectionOutlineStroke(new BasicStroke(2.0f));
 
         // customise the section label appearance
-        plot.setLabelFont(new Font("Arial", Font.BOLD, 32));
+        plot.setLabelFont(new Font("Arial", Font.BOLD, 16));
         plot.setLabelLinkPaint(Color.BLACK);
         plot.setLabelLinkStroke(new BasicStroke(2.0f));
         plot.setLabelOutlineStroke(null);
