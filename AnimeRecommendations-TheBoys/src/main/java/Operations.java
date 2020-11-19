@@ -17,6 +17,8 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.statistics.SimpleHistogramBin;
+import org.jfree.data.statistics.SimpleHistogramDataset;
 
 import java.awt.*;
 import java.io.File;
@@ -452,8 +454,8 @@ public class Operations {
         List<Anime> listCopy = new ArrayList<>(list.getList());
         listCopy.sort(Comparator.comparing(Anime::getAnime_id));
         Collections.reverse(listCopy);
-        int newAnimeId = listCopy.get(0).getAnime_id() + 1;
-        Anime newAnime = new Anime(newAnimeId, animeName,"" ,"" ,0 ,0 ,0);
+        int newAnimeId = Integer.parseInt(listCopy.get(0).getAnime_id()) + 1;
+        Anime newAnime = new Anime(Integer.toString(newAnimeId), animeName,"" ,"" ,0 ,0 ,0);
         list.addAnimeToList(newAnime);
         event.getChannel().sendMessage("Anime **\"" + newAnime.getName() + "\"** added to list, " +
                 "**please update \"genre, type, episodes, rating, and watched\"** whenever possible!" +
@@ -511,34 +513,94 @@ public class Operations {
     //parse through the second file that is really long
     //I say Brian will take over 20 minutes or just crash, requires at least
     //700 Mb's of ram available to run
+
     /*
     void ratingsGraph(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
         input = input.substring(8);
         Anime foundAnime = new Anime();
-        HistogramDataset dataset = new HistogramDataset();
-        int count = 0;
-        double[] values = new double[rlist.getSize()];
         for(int i = 0; i <= list.getSize()-1; i++){
             Anime exampleAnime = list.getList().get(i);
             if (input.toUpperCase().replaceAll("\\s+","").equals(exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
                 foundAnime = list.getList().get(i);
                 found = true;
+                break;
             }
         }
+        SimpleHistogramDataset dataset = new SimpleHistogramDataset(foundAnime.getName());
+        SimpleHistogramBin bin0 = new SimpleHistogramBin(-0.1,0.1,false,false);
+        SimpleHistogramBin bin1 = new SimpleHistogramBin(0.9,1.1,false,false);
+        SimpleHistogramBin bin2 = new SimpleHistogramBin(1.9,2.1,false,false);
+        SimpleHistogramBin bin3 = new SimpleHistogramBin(2.9,3.1,false,false);
+        SimpleHistogramBin bin4 = new SimpleHistogramBin(3.9,4.1,false,false);
+        SimpleHistogramBin bin5 = new SimpleHistogramBin(4.9,5.1,false,false);
+        SimpleHistogramBin bin6 = new SimpleHistogramBin(5.9,6.1,false,false);
+        SimpleHistogramBin bin7 = new SimpleHistogramBin(6.9,7.1,false,false);
+        SimpleHistogramBin bin8 = new SimpleHistogramBin(7.9,8.1,false,false);
+        SimpleHistogramBin bin9 = new SimpleHistogramBin(8.9,9.1,false,false);
+        SimpleHistogramBin bin10 = new SimpleHistogramBin(9.9,10.1,false,false);
+        SimpleHistogramBin bin11 = new SimpleHistogramBin(-1.1,-0.9,false,true);
+        int none = 0;
+        int zero = 0;
+        int one = 0;
+        int two = 0;
+        int three = 0;
+        int four = 0;
+        int five = 0;
+        int six = 0;
+        int seven = 0;
+        int eight = 0;
+        int nine = 0;
+        int ten = 0;
+
         if(!found){
             event.getChannel().sendMessage("Anime was not found!").complete();
         }
         else {
+            Rating rating;
             for(int i = 0; i <= rlist.getSize()-1; i++){
-                Rating rating = rlist.getList().get(i);
-                if(rating.getAnime_id() == foundAnime.getAnime_id()){
-                    values[count] = rating.getRating();
-                    count++;
+                rating = rlist.getList().get(i);
+                if(foundAnime.getAnime_id().equals(rating.getAnime_id())){
+                    if(rating.getRating() == -1) none++;
+                    else if(rating.getRating() == 0) zero++;
+                    else if(rating.getRating() == 1) one++;
+                    else if(rating.getRating() == 2) two++;
+                    else if(rating.getRating() == 3) three++;
+                    else if(rating.getRating() == 4) four++;
+                    else if(rating.getRating() == 5) five++;
+                    else if(rating.getRating() == 6) six++;
+                    else if(rating.getRating() == 7) seven++;
+                    else if(rating.getRating() == 8) eight++;
+                    else if(rating.getRating() == 9) nine++;
+                    else if(rating.getRating() == 10) ten++;
                 }
             }
-            dataset.addSeries(foundAnime.getName(),values,count);
+            bin0.setItemCount(zero);
+            bin1.setItemCount(one);
+            bin2.setItemCount(two);
+            bin3.setItemCount(three);
+            bin4.setItemCount(four);
+            bin5.setItemCount(five);
+            bin6.setItemCount(six);
+            bin7.setItemCount(seven);
+            bin8.setItemCount(eight);
+            bin9.setItemCount(nine);
+            bin10.setItemCount(ten);
+            bin11.setItemCount(none);
+            dataset.addBin(bin11);
+            dataset.addBin(bin0);
+            dataset.addBin(bin1);
+            dataset.addBin(bin2);
+            dataset.addBin(bin3);
+            dataset.addBin(bin4);
+            dataset.addBin(bin5);
+            dataset.addBin(bin6);
+            dataset.addBin(bin7);
+            dataset.addBin(bin8);
+            dataset.addBin(bin9);
+            dataset.addBin(bin10);
+
             MakeChart chart = new MakeChart();
             chart.createHistogram(foundAnime.getName() + " Ratings", dataset);
             event.getChannel().sendFile(new File("temp.png")).complete();
