@@ -34,13 +34,7 @@ public class MakeChart {
     }
 
     //Pie chart example
-    public void createTestPieChart(String title) {
-        DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Drama", 27.8);
-        dataset.setValue("Sports", 55.3);
-        dataset.setValue("School", 16.8);
-        dataset.setValue("Shounen", 17.1);
-
+    public void createTestPieChart(String title, DefaultPieDataset dataset) {
         JFreeChart chart = ChartFactory.createPieChart(
                 title, // chart title
                 dataset, // data
@@ -64,13 +58,6 @@ public class MakeChart {
         plot.setBackgroundPaint(null);
         plot.setInteriorGap(0.04);
         plot.setOutlineVisible(false);
-
-        // using random colors for chart and white borders for the section colours
-        Random rand = new Random();
-        plot.setSectionPaint("Sports", new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)));
-        plot.setSectionPaint("Drama", new Color(0,rand.nextInt(255),rand.nextInt(255)));
-        plot.setSectionPaint("School", new Color(rand.nextInt(255),0,rand.nextInt(255)));
-        plot.setSectionPaint("Shounen", new Color(rand.nextInt(255),rand.nextInt(255),0));
         plot.setDefaultSectionOutlinePaint(Color.BLACK);
         plot.setSectionOutlinesVisible(true);
         plot.setDefaultSectionOutlineStroke(new BasicStroke(2.0f));
