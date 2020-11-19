@@ -11,6 +11,8 @@ public class ratingList {
     private static final String testSave = "savedRating.csv";
     private static final String backupFile = "backupListRating.csv";
     List<Rating> list = new ArrayList<Rating>();
+    String[] temp = new String[7813738];
+    int count = 0;
 
     String line;
 
@@ -18,22 +20,34 @@ public class ratingList {
         try{
             BufferedReader reader = Files.newBufferedReader(Paths.get(fileName));
             while((line = reader.readLine()) != null){
-                String[] tokens2 = line.split(",", -1);
-                int user_id = Integer.parseInt(tokens2[0]);
-                System.out.println(user_id);
-                int anime_id = Integer.parseInt(tokens2[1]);
-                System.out.println(anime_id);
-                int ratingScore = Integer.parseInt(tokens2[2]);
-                System.out.println(ratingScore);
-                Rating rating = new Rating(user_id, anime_id, ratingScore);
-                addRatingToList(rating);
+                temp[count] = line;
+                count++;
             }
             // list add read files
             reader.close();
+            start();
         }
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    void start(){
+        for(int i = 0; i < 7813737; i++) {
+            String[] tokens = new String[3];
+            String x = temp[i] + ",";
+            int iPos = 0;
+            int iStr = 0;
+            int iNext = -1;
+            while((iNext = x.indexOf(',',iPos)) != -1 && iStr < 3){
+                tokens[iStr++] = x.substring(iPos, iNext);
+                iPos = iNext + 1;
+            }
+            Rating rating = new Rating(tokens[0], tokens[1], tokens[2]);
+            System.out.println(tokens[0]);
+            addRatingToList(rating);
+        }
+        temp = null;
     }
 
     void addRatingToList(Rating rating){list.add(rating);}
