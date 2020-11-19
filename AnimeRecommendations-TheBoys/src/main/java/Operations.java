@@ -97,7 +97,9 @@ public class Operations {
         msgBuilder.addField("!deleteA","Deletes specified anime. (ex: !deleteA [Red])",false);
         return msgBuilder.build();
     }
-    //!searcha
+    //inputting !searcha will wait for the user to input an anime title from the existing list and will bring up the results
+    //including the anime's Title, Genre, Episodes, and rating
+    //inputting !searchw will search for keywords that are in the list of existing anime
     void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
@@ -464,6 +466,7 @@ public class Operations {
 
 
     //!deleteA
+    //self explanatory, but this allows the user to delete a specific user inputted anime from the list
     void deleteAnime(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -485,6 +488,8 @@ public class Operations {
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
     //!addA
+    //also self explanatory, but this allows the user to add a new item into the anime list.
+    //Asks the user to input the Title, Genre, Type, Episodes, Rating and Watched if possible
     void addAnimeToList(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -644,6 +649,7 @@ public class Operations {
 
      */
 
+    //!rgraph and !egraph brings up the graph of the top rated anime and the episode list
     void barGraph(MessageReceivedEvent event){
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
@@ -714,6 +720,8 @@ public class Operations {
 
     }
 
+    //genrePieGraph parses through the anime list and separates the genre of each anime
+    //showcasing it into Piegraph form
     void genrePieGraph(MessageReceivedEvent event){
         DefaultPieDataset dataset = new DefaultPieDataset();
         ArrayList finalgenre = new ArrayList();
@@ -739,6 +747,12 @@ public class Operations {
         event.getChannel().sendFile(new File("temp.png")).complete();
     }
 
+    //genreBar parses through the anime list and seperates the genre of each anime
+    //adds genres of every anime into an arraylist
+    //Then makes a second arraylist and using a linked-hashset that removes any duplicates it may have
+    //inputting !genre will show the final input into a string
+    //inputting !bgenre will show the frequency of each genre in the list and compares them
+    //inputting !mbgenre will take the user input and uppercase it and compare the frequencies of each genre in the arraylist
     void genreBarGraph(MessageReceivedEvent event){
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
@@ -811,6 +825,8 @@ public class Operations {
         }
     }
 
+    //inputting !favorite will await user input to add an anime from the list and add it to a list of favorites
+    //it will check for duplicates of the anime and will check for correct input of the existing anime in the list
     void saveFavorite(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean exists = false;
