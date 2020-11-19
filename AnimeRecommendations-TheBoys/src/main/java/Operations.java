@@ -36,25 +36,25 @@ public class Operations {
     //parse through the second file that is really long
     //I say Brian will take over 20 minutes or just crash, requires at least
     //700 Mb's of ram available to run
-    //private final ratingList rlist = new ratingList();
+    private final ratingList rlist = new ratingList();
     private final favoriteList favorites = new favoriteList();
 
     Operations(){
 
     }
-
+//!backup
     void backUp(MessageReceivedEvent event){
         event.getChannel().sendMessage("Saving backup list, please wait...").complete();
         list.animeBackup();
         event.getChannel().sendMessage("Backup list saved!").complete();
     }
-
+//!save
     void saveList(MessageReceivedEvent event){
         event.getChannel().sendMessage("Saving list, please wait...").complete();
         list.write();
         event.getChannel().sendMessage("List saved!").complete();
     }
-
+//Embedded Message Template
     void messageEmbed(MessageReceivedEvent event){
         EmbedBuilder msgBuilder = new EmbedBuilder();
         msgBuilder.setTitle("title");
@@ -66,7 +66,7 @@ public class Operations {
         msgBuilder.setFooter("text on bottom");
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
-
+//!help
     MessageEmbed startMenu(){
         EmbedBuilder msgBuilder = new EmbedBuilder();
         msgBuilder.setTitle("Help Menu");
@@ -76,6 +76,7 @@ public class Operations {
         msgBuilder.addField("!searcha","Search for a specific anime. (ex: !searcha Death Note)",false);
         msgBuilder.addField("!searchw","Search for a specific word in anime titles. (ex: !searchw death)",false);
         msgBuilder.addField("!random","Gives you a random anime in the list of over 10,000 anime.",false);
+        msgBuilder.addField("!randG","Gives you a random genre in the list of over 10,000 anime.",false);
         msgBuilder.addField("!favorite","Saves x anime to favorites. (ex: !favorite Death Note)",false);
         msgBuilder.addField("!deleteF","Deletes x anime from favorites. (ex: !deleteF [Death Note])",false);
         msgBuilder.addField("","",false);
@@ -94,7 +95,7 @@ public class Operations {
         msgBuilder.addField("!deleteA","Deletes specified anime. (ex: !deleteA [Red])",false);
         return msgBuilder.build();
     }
-
+//!searcha
     void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
@@ -157,7 +158,7 @@ public class Operations {
             }
         }
     }
-
+//!top
     private int animeListPage = 0;
     private String animeListSort;
     MessageEmbed animeListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
@@ -255,7 +256,7 @@ public class Operations {
                 "https://cdn.frankerfacez.com/emoticon/251321/4");
         return lbBuilder.build();
     }
-
+//!updateAE
     void updateAnimeEpisodes(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -270,16 +271,24 @@ public class Operations {
                 foundAnime = exampleAnime;
                 list.updateEpisodes(i,episodes);
                 found = true;
+                break; //Leaves for loop
             }
         }
         if(found){
             event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
                     + "\"'s** episodes to **" + episodes + "**" +
                     "\n Don't forget to save list after updating an item!").complete();
+            for(int i = 0; i <= favorites.getSize()-1; i++){
+                if(foundAnime.getName() == favorites.getList().get(i).getName()){
+                    favorites.deleteFavorite(i);
+                    favorites.add(foundAnime);
+                    event.getChannel().sendMessage("Updated favorites list also updated.").complete();
+                }
+            }
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-
+//!updateAR
     void updateAnimeRating(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -294,16 +303,24 @@ public class Operations {
                 foundAnime = exampleAnime;
                 list.updateRating(i,rating);
                 found = true;
+                break; //Leaves for loop
             }
         }
         if(found){
             event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
                     + "\"'s** rating to **" + rating + "**" +
                     "\n Don't forget to save list after updating an item!").complete();
+            for(int i = 0; i <= favorites.getSize()-1; i++){
+                if(foundAnime.getName() == favorites.getList().get(i).getName()){
+                    favorites.deleteFavorite(i);
+                    favorites.add(foundAnime);
+                    event.getChannel().sendMessage("Updated favorites list also updated.").complete();
+                }
+            }
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-
+//!updateAW
     void updateAnimeWatched(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -318,16 +335,24 @@ public class Operations {
                 foundAnime = exampleAnime;
                 list.updateMembers(i,watched);
                 found = true;
+                break; //Leaves for loop
             }
         }
         if(found){
             event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
                     + "\"'s** watched to **" + watched + "**" +
                     "\n Don't forget to save list after updating an item!").complete();
+            for(int i = 0; i <= favorites.getSize()-1; i++){
+                if(foundAnime.getName() == favorites.getList().get(i).getName()){
+                    favorites.deleteFavorite(i);
+                    favorites.add(foundAnime);
+                    event.getChannel().sendMessage("Updated favorites list also updated.").complete();
+                }
+            }
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-
+//!updateAT
     //added updated anime type
     void updateAnimeType(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
@@ -343,6 +368,7 @@ public class Operations {
                 foundAnime = exampleAnime;
                 list.updateType(i,type);
                 found = true;
+                break; //Leaves for loop
             }
         }
         if(found){
@@ -353,7 +379,7 @@ public class Operations {
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
 
     }
-
+//!updateAG
     //addend updated anime genre
     void updateAnimeGenre(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
@@ -369,17 +395,25 @@ public class Operations {
                 foundAnime = exampleAnime;
                 list.updateGenre(i,genre);
                 found = true;
+                break; //Leaves for loop
             }
         }
         if(found){
             event.getChannel().sendMessage("Updated **\"" + foundAnime.getName()
                     + "\"'s** genre(s) to **" + genre + "**" +
                     "\n Don't forget to save list after updating an item!").complete();
+            for(int i = 0; i <= favorites.getSize()-1; i++){
+                if(foundAnime.getName() == favorites.getList().get(i).getName()){
+                    favorites.deleteFavorite(i);
+                    favorites.add(foundAnime);
+                    event.getChannel().sendMessage("Updated favorites list also updated.").complete();
+                }
+            }
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
 
     }
-
+//!random
     //function for bringing up a random anime to watch
     void randomAnime(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
@@ -427,7 +461,7 @@ public class Operations {
     }
 
 
-
+//!deleteA
     void deleteAnime(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -448,7 +482,7 @@ public class Operations {
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-
+//!addA
     void addAnimeToList(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -470,13 +504,13 @@ public class Operations {
         msgBuilder.addField("Watched","" + newAnime.getMembers(), false);
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
-
+//!genrepie
     void testPieChart(MessageReceivedEvent event){
         MakeChart chart = new MakeChart();
         chart.createTestPieChart("Test Chart");
         event.getChannel().sendFile(new File("temp.png")).complete();
     }
-
+//!bargraph
     void testBarChart(MessageReceivedEvent event){
         MakeChart chart = new MakeChart();
         chart.createTestBarChart("Test Chart");
@@ -514,7 +548,6 @@ public class Operations {
     //parse through the second file that is really long
     //I say Brian will take over 20 minutes or just crash, requires at least
     //700 Mb's of ram available to run
-
     /*
     void ratingsGraph(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
@@ -607,7 +640,7 @@ public class Operations {
             event.getChannel().sendFile(new File("temp.png")).complete();
         }
     }
-
+    
      */
 
     void barGraph(MessageReceivedEvent event){
@@ -679,6 +712,7 @@ public class Operations {
         }
 
     }
+  
     void genreBarGraph(MessageReceivedEvent event){
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
@@ -750,14 +784,14 @@ public class Operations {
             }
         }
     }
-
+  
     void saveFavorite(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean exists = false;
         boolean found = false;
-        if(input.startsWith("favorite")){
-            input = input.substring(8);
-            for(int j = 0; j <= favorites.getSize()-1; j++){
+        if(input.startsWith("!favorite")){
+            input = input.substring(9);
+            for(int j = 0; j <= favorites.getSize()-1; j++){ //Checks if anime is in list already
                 Anime favorite = favorites.getList().get(j);
                 if (input.toUpperCase().replaceAll("\\s+","").equals(favorite.getName().toUpperCase().replaceAll("\\s+",""))){
                     event.getChannel().sendMessage("Anime already in list.").complete();
@@ -779,13 +813,13 @@ public class Operations {
             }
         }
     }
-
+//!fexport
     void exportSave(MessageReceivedEvent event){
         event.getChannel().sendMessage("Exporting favorites, please wait...").complete();
         favorites.write();
         event.getChannel().sendMessage("Favorites exported!").complete();
     }
-
+//!ftop
     MessageEmbed favoriteListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
         formatter.setTimeZone(TimeZone.getTimeZone("PST"));
@@ -881,18 +915,18 @@ public class Operations {
                 "https://cdn.frankerfacez.com/emoticon/251321/4");
         return lbBuilder.build();
     }
-
+//!deleteF
     void deleteFavorite(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
         Anime foundAnime = new Anime();
         boolean found = false;
-        for(int i = 0; i <= favorites.getSize()-1; i++){
+        for(int i = 0; i <= favorites.getSize()-1; i++){ //go throughout the favorite list
             Anime exampleAnime = favorites.getList().get(i);
             if(animeName.toUpperCase().replaceAll("\\s+","").equals
-                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
+                    (exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){ //finds the anime
                 foundAnime = exampleAnime;
-                favorites.deleteFavorite(i);
+                favorites.deleteFavorite(i); //removes
                 found = true;
             }
         }
