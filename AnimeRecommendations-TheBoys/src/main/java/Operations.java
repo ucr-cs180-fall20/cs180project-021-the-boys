@@ -381,7 +381,7 @@ public class Operations {
     void randomAnime(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
-        if(input.startsWith("random")){
+
 
             Anime randAnime = getRandom();
 
@@ -395,15 +395,31 @@ public class Operations {
             found = true;
 
             if(found){
-                event.getChannel().sendMessage("Random Anime **" + randAnime.getName() + "**").complete();
+                event.getChannel().sendMessage("Random Anime: **" + randAnime.getName() + "**").complete();
             }
-        }
-    }
 
+    }
+    //get random function
     Anime getRandom(){
         Random random = new Random();
         int index = random.nextInt(list.getSize());
         return list.list.get(index);
+
+    }
+
+    //prototype function for random genre
+    void randomGenre(MessageReceivedEvent event){
+        String input = event.getMessage().getContentRaw();
+        boolean found = false;
+
+
+        Anime randAnime = getRandom();
+
+        EmbedBuilder msgBuilder = new EmbedBuilder();
+        msgBuilder.addField("Random Genre",randAnime.getGenre(), false);
+        event.getChannel().sendMessage(msgBuilder.build()).complete();
+        found = true;
+
 
     }
 

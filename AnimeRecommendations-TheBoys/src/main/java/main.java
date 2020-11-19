@@ -54,6 +54,9 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("!random")){
                 op.randomAnime(event);
             }
+            if(event.getMessage().getContentRaw().startsWith("!randG") || event.getMessage().getContentRaw().startsWith("!randg")){
+                op.randomGenre(event);
+            }
             if(event.getMessage().getContentRaw().equals("!save")){
                 op.saveList(event);
             }
