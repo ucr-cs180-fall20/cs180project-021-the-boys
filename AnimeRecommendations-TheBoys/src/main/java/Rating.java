@@ -17,7 +17,7 @@ public class Rating {
 
     public String getUser_id(){return user_id;}
 
-    public int getRating(){return Integer.parseInt(rating);}
+    public String getRating(){return rating;}
 
     public void setRating(int d){rating = Integer.toString(d);}
 }
