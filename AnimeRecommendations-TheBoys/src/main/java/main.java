@@ -25,7 +25,7 @@ public class main extends ListenerAdapter {
         jda = JDABuilder.createDefault("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4").build();
         jda.addEventListener(new main());
     }
-
+//Command/Message Interpreter
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String channelID = event.getChannel().getId();
@@ -116,7 +116,7 @@ public class main extends ListenerAdapter {
             }
         }
     }
-
+//React Button Navigation
     @Override
     public void onGenericMessageReaction(@NotNull GenericMessageReactionEvent event) {
         try {
