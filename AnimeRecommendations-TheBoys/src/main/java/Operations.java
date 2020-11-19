@@ -80,7 +80,6 @@ public class Operations {
         msgBuilder.addField("!randG","Gives you a random genre in the list of over 10,000 anime.",false);
         msgBuilder.addField("!favorite","Saves x anime to favorites. (ex: !favorite Death Note)",false);
         msgBuilder.addField("!deleteF","Deletes x anime from favorites. (ex: !deleteF [Death Note])",false);
-        msgBuilder.addField("","",false);
         msgBuilder.addField("!bargraph","Shows an image of a graph for specified parameters.",false);
         msgBuilder.addField("!rgraph","Shows an image of a graph that compares **ratings** of different anime.",false);
         msgBuilder.addField("!egraph","Shows an image of a graph that compares **episodes** of specified anime.",false);
@@ -89,7 +88,6 @@ public class Operations {
         msgBuilder.addField("!bgenre","Shows an image of a graph that compares all genres.",false);
         msgBuilder.addField("!mbgenre","Shows an image of a graph that compares specific genres.",false);
         msgBuilder.addField("!genre","Shows an image of a graph that shows the amount of anime in a genre.",false);
-        msgBuilder.addField("","",false);
         msgBuilder.addField("!addA","Adds empty anime with specified name. (ex: !addA [Red])",false);
         msgBuilder.addField("!updateAR","Changes anime **rating** to specified. (ex: !updateAR [Red][8.67])",false);
         msgBuilder.addField("!updateAT","Changes anime **type** to specified. (ex: !updateAT [Red][TV])",false);
