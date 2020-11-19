@@ -50,8 +50,8 @@ public class ratingList {
         String save = ""; //String to be store
 
         for (Rating rating : list) { //per row
-            save = save.concat(Integer.toString(rating.getUser_id())).concat(","); //ID
-            save = save.concat(Integer.toString(rating.getAnime_id())).concat(","); //Episodes
+            save = save.concat(rating.getUser_id()).concat(","); //ID
+            save = save.concat(rating.getAnime_id()).concat(","); //Episodes
             save = save.concat(Integer.toString(rating.getRating())).concat("\n"); //Members
         }
 
@@ -71,8 +71,8 @@ public class ratingList {
         String saveBU = "";
 
         for (Rating rating : list) { //per row
-            saveBU = saveBU.concat(Integer.toString(rating.getUser_id())).concat(","); //ID
-            saveBU = saveBU.concat(Integer.toString(rating.getAnime_id())).concat(","); //Episodes
+            saveBU = saveBU.concat(rating.getUser_id()).concat(","); //ID
+            saveBU = saveBU.concat(rating.getAnime_id()).concat(","); //Episodes
             saveBU = saveBU.concat(Integer.toString(rating.getRating())).concat("\n"); //Members
         }
 
