@@ -16,6 +16,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.statistics.SimpleHistogramBin;
 import org.jfree.data.statistics.SimpleHistogramDataset;
@@ -36,25 +37,25 @@ public class Operations {
     //parse through the second file that is really long
     //I say Brian will take over 20 minutes or just crash, requires at least
     //700 Mb's of ram available to run
-    private final ratingList rlist = new ratingList();
+    //private final ratingList rlist = new ratingList();
     private final favoriteList favorites = new favoriteList();
 
     Operations(){
 
     }
-//!backup
+    //!backup
     void backUp(MessageReceivedEvent event){
         event.getChannel().sendMessage("Saving backup list, please wait...").complete();
         list.animeBackup();
         event.getChannel().sendMessage("Backup list saved!").complete();
     }
-//!save
+    //!save
     void saveList(MessageReceivedEvent event){
         event.getChannel().sendMessage("Saving list, please wait...").complete();
         list.write();
         event.getChannel().sendMessage("List saved!").complete();
     }
-//Embedded Message Template
+    //Embedded Message Template
     void messageEmbed(MessageReceivedEvent event){
         EmbedBuilder msgBuilder = new EmbedBuilder();
         msgBuilder.setTitle("title");
@@ -66,7 +67,7 @@ public class Operations {
         msgBuilder.setFooter("text on bottom");
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
-//!help
+    //!help
     MessageEmbed startMenu(){
         EmbedBuilder msgBuilder = new EmbedBuilder();
         msgBuilder.setTitle("Help Menu");
@@ -84,7 +85,10 @@ public class Operations {
         msgBuilder.addField("!rgraph","Shows an image of a graph that compares **ratings** of different anime.",false);
         msgBuilder.addField("!egraph","Shows an image of a graph that compares **episodes** of specified anime.",false);
         msgBuilder.addField("!ratings","Shows an image of a graph that compares **episodes** of a specific anime.",false);
-        msgBuilder.addField("!genrepie","Shows an image of a graph that compares **episodes** of a specific anime.",false);
+        msgBuilder.addField("!piegenre","Shows an image of a pie graph that compares all genres.",false);
+        msgBuilder.addField("!bgenre","Shows an image of a graph that compares all genres.",false);
+        msgBuilder.addField("!mbgenre","Shows an image of a graph that compares specific genres.",false);
+        msgBuilder.addField("!genre","Shows an image of a graph that shows the amount of anime in a genre.",false);
         msgBuilder.addField("","",false);
         msgBuilder.addField("!addA","Adds empty anime with specified name. (ex: !addA [Red])",false);
         msgBuilder.addField("!updateAR","Changes anime **rating** to specified. (ex: !updateAR [Red][8.67])",false);
@@ -95,7 +99,7 @@ public class Operations {
         msgBuilder.addField("!deleteA","Deletes specified anime. (ex: !deleteA [Red])",false);
         return msgBuilder.build();
     }
-//!searcha
+    //!searcha
     void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
@@ -158,7 +162,7 @@ public class Operations {
             }
         }
     }
-//!top
+    //!top
     private int animeListPage = 0;
     private String animeListSort;
     MessageEmbed animeListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
@@ -256,7 +260,7 @@ public class Operations {
                 "https://cdn.frankerfacez.com/emoticon/251321/4");
         return lbBuilder.build();
     }
-//!updateAE
+    //!updateAE
     void updateAnimeEpisodes(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -288,7 +292,7 @@ public class Operations {
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-//!updateAR
+    //!updateAR
     void updateAnimeRating(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -320,7 +324,7 @@ public class Operations {
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-//!updateAW
+    //!updateAW
     void updateAnimeWatched(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -352,7 +356,7 @@ public class Operations {
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-//!updateAT
+    //!updateAT
     //added updated anime type
     void updateAnimeType(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
@@ -379,7 +383,7 @@ public class Operations {
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
 
     }
-//!updateAG
+    //!updateAG
     //addend updated anime genre
     void updateAnimeGenre(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
@@ -413,27 +417,27 @@ public class Operations {
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
 
     }
-//!random
+    //!random
     //function for bringing up a random anime to watch
     void randomAnime(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
 
 
-            Anime randAnime = getRandom();
+        Anime randAnime = getRandom();
 
-            EmbedBuilder msgBuilder = new EmbedBuilder();
-            msgBuilder.setTitle(randAnime.getName());
-            msgBuilder.addField("Genre",randAnime.getGenre(), false);
-            msgBuilder.addField("Episodes", ""+randAnime.getEpisodes(), false);
-            msgBuilder.addField("Rating", ""+ randAnime.getRating(), false);
+        EmbedBuilder msgBuilder = new EmbedBuilder();
+        msgBuilder.setTitle(randAnime.getName());
+        msgBuilder.addField("Genre",randAnime.getGenre(), false);
+        msgBuilder.addField("Episodes", ""+randAnime.getEpisodes(), false);
+        msgBuilder.addField("Rating", ""+ randAnime.getRating(), false);
 
-            event.getChannel().sendMessage(msgBuilder.build()).complete();
-            found = true;
+        event.getChannel().sendMessage(msgBuilder.build()).complete();
+        found = true;
 
-            if(found){
-                event.getChannel().sendMessage("Random Anime: **" + randAnime.getName() + "**").complete();
-            }
+        if(found){
+            event.getChannel().sendMessage("Random Anime: **" + randAnime.getName() + "**").complete();
+        }
 
     }
     //get random function
@@ -461,7 +465,7 @@ public class Operations {
     }
 
 
-//!deleteA
+    //!deleteA
     void deleteAnime(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -482,7 +486,7 @@ public class Operations {
         }
         else event.getChannel().sendMessage("Anime **\"" + animeName + "\"** not found").complete();
     }
-//!addA
+    //!addA
     void addAnimeToList(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
@@ -504,45 +508,6 @@ public class Operations {
         msgBuilder.addField("Watched","" + newAnime.getMembers(), false);
         event.getChannel().sendMessage(msgBuilder.build()).complete();
     }
-//!genrepie
-    void testPieChart(MessageReceivedEvent event){
-        MakeChart chart = new MakeChart();
-        chart.createTestPieChart("Test Chart");
-        event.getChannel().sendFile(new File("temp.png")).complete();
-    }
-//!bargraph
-    void testBarChart(MessageReceivedEvent event){
-        MakeChart chart = new MakeChart();
-        chart.createTestBarChart("Test Chart");
-        event.getChannel().sendFile(new File("temp.png")).complete();
-    }
-
-    /*
-    String[] genres = new String[500];
-    int genrecount = 0;
-    void checkGenres(String genre){
-        boolean found = false;
-        for(int i = 0; i < genres.length; i++){
-            if(genre != genres[i]) found = true;
-        }
-        if (!found) genres[genrecount] = genre;
-    }
-    void genrePieGraph(MessageReceivedEvent event){
-        StringBuilder coolstring = new StringBuilder();
-        for(int i = 0; i < list.getSize(); i++){
-            Anime tempAnime = list.getList().get(i);
-            String temp1 = tempAnime.getGenre().replace('\"',' ');
-            String[] tempgenres = temp1.split(",");
-            for(int j = 0; j < tempgenres.length; j++){
-                checkGenres(tempgenres[j]);
-            }
-        }
-        for(int i = 0; i < genres.length; i++){
-            coolstring.append(genres[i] + "\n");
-        }
-        event.getChannel().sendMessage(coolstring.toString()).complete();
-    }
-     */
 
     //don't uncomment this one unless you want to see how long it would take to
     //parse through the second file that is really long
@@ -563,6 +528,7 @@ public class Operations {
             }
         }
         SimpleHistogramDataset dataset = new SimpleHistogramDataset(foundAnime.getName());
+        SimpleHistogramBin bin11 = new SimpleHistogramBin(-1.1,-0.9,false,true);
         SimpleHistogramBin bin0 = new SimpleHistogramBin(-0.1,0.1,false,false);
         SimpleHistogramBin bin1 = new SimpleHistogramBin(0.9,1.1,false,false);
         SimpleHistogramBin bin2 = new SimpleHistogramBin(1.9,2.1,false,false);
@@ -574,7 +540,6 @@ public class Operations {
         SimpleHistogramBin bin8 = new SimpleHistogramBin(7.9,8.1,false,false);
         SimpleHistogramBin bin9 = new SimpleHistogramBin(8.9,9.1,false,false);
         SimpleHistogramBin bin10 = new SimpleHistogramBin(9.9,10.1,false,false);
-        SimpleHistogramBin bin11 = new SimpleHistogramBin(-1.1,-0.9,false,true);
         int none = 0;
         int zero = 0;
         int one = 0;
@@ -596,20 +561,59 @@ public class Operations {
             for(int i = 0; i <= rlist.getSize()-1; i++){
                 rating = rlist.getList().get(i);
                 if(foundAnime.getAnime_id().equals(rating.getAnime_id())){
-                    if(rating.getRating() == -1) none++;
-                    else if(rating.getRating() == 0) zero++;
-                    else if(rating.getRating() == 1) one++;
-                    else if(rating.getRating() == 2) two++;
-                    else if(rating.getRating() == 3) three++;
-                    else if(rating.getRating() == 4) four++;
-                    else if(rating.getRating() == 5) five++;
-                    else if(rating.getRating() == 6) six++;
-                    else if(rating.getRating() == 7) seven++;
-                    else if(rating.getRating() == 8) eight++;
-                    else if(rating.getRating() == 9) nine++;
-                    else if(rating.getRating() == 10) ten++;
+                    switch (rating.getRating()) {
+                        case "-1":
+                            none++;
+                            break;
+                        case "0":
+                            zero++;
+                            break;
+                        case "1":
+                            one++;
+                            break;
+                        case "2":
+                            two++;
+                            break;
+                        case "3":
+                            three++;
+                            break;
+                        case "4":
+                            four++;
+                            break;
+                        case "5":
+                            five++;
+                            break;
+                        case "6":
+                            six++;
+                            break;
+                        case "7":
+                            seven++;
+                            break;
+                        case "8":
+                            eight++;
+                            break;
+                        case "9":
+                            nine++;
+                            break;
+                        case "10":
+                            ten++;
+                            break;
+                    }
                 }
             }
+            System.out.println(none);
+            System.out.println(zero);
+            System.out.println(one);
+            System.out.println(two);
+            System.out.println(three);
+            System.out.println(four);
+            System.out.println(five);
+            System.out.println(six);
+            System.out.println(seven);
+            System.out.println(eight);
+            System.out.println(nine);
+            System.out.println(ten);
+            bin11.setItemCount(none);
             bin0.setItemCount(zero);
             bin1.setItemCount(one);
             bin2.setItemCount(two);
@@ -621,7 +625,6 @@ public class Operations {
             bin8.setItemCount(eight);
             bin9.setItemCount(nine);
             bin10.setItemCount(ten);
-            bin11.setItemCount(none);
             dataset.addBin(bin11);
             dataset.addBin(bin0);
             dataset.addBin(bin1);
@@ -640,7 +643,7 @@ public class Operations {
             event.getChannel().sendFile(new File("temp.png")).complete();
         }
     }
-    
+
      */
 
     void barGraph(MessageReceivedEvent event){
@@ -712,29 +715,54 @@ public class Operations {
         }
 
     }
-  
+
+    void genrePieGraph(MessageReceivedEvent event){
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        ArrayList finalgenre = new ArrayList();
+        ArrayList finalgenre2 = new ArrayList() ;
+        for(int i = 0; i <= list.getSize()-1 ; i++){
+            Anime exampleAnime1 = list.getList().get(i);
+            String exampleanime3 = exampleAnime1.getGenre();
+            exampleanime3 = exampleanime3.replaceAll("\"","");
+            exampleanime3 = exampleanime3.replaceAll("\\s+","");
+            String[] input2 = exampleanime3.split(",");
+            for(int j = 0; j < input2.length; j++) {
+                finalgenre.add(input2[j]);
+            }
+        }
+        Set set = new LinkedHashSet();
+        set.addAll(finalgenre);
+        finalgenre2.addAll(set);
+        for(Object charac: finalgenre2) {
+            dataset.setValue((Comparable) charac, Collections.frequency(finalgenre,charac));
+        }
+        MakeChart chart = new MakeChart();
+        chart.createPieChart("Genres", dataset);
+        event.getChannel().sendFile(new File("temp.png")).complete();
+    }
+
     void genreBarGraph(MessageReceivedEvent event){
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         ArrayList finalgenre = new ArrayList();
         ArrayList finalgenre2 = new ArrayList() ;
-           // input1 = input1.substring(6);
-            for(int i = 0; i <= list.getSize()-1 ; i++){
-                Anime exampleAnime1 = list.getList().get(i);
-                String exampleanime3 = exampleAnime1.getGenre();
-                exampleanime3 = exampleanime3.replaceAll("\"","");
-                exampleanime3 = exampleanime3.replaceAll("\\s+","");
-                String[] input2 = exampleanime3.split(",");
-                for(int j = 0; j < input2.length; j++) {
-                        finalgenre.add(input2[j]);
-                }
+        // input1 = input1.substring(6);
+        for(int i = 0; i <= list.getSize()-1 ; i++){
+            Anime exampleAnime1 = list.getList().get(i);
+            String exampleanime3 = exampleAnime1.getGenre();
+            exampleanime3 = exampleanime3.replaceAll("\"","");
+            exampleanime3 = exampleanime3.replaceAll("\\s+","");
+            String[] input2 = exampleanime3.split(",");
+            for(int j = 0; j < input2.length; j++) {
+                finalgenre.add(input2[j]);
             }
-            Set set = new LinkedHashSet();
-            set.addAll(finalgenre);
-            finalgenre2.addAll(set);
+        }
+        Set set = new LinkedHashSet();
+        set.addAll(finalgenre);
+        finalgenre2.addAll(set);
 
-            if(input1.startsWith("!genre")){
+        if(input1.startsWith("!genre")){
             /*for(Object charact: finalgenre){
                 if(!finalgenre2.contains(charact)){
                     finalgenre2.add(charact);
@@ -784,7 +812,7 @@ public class Operations {
             }
         }
     }
-  
+
     void saveFavorite(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean exists = false;
@@ -813,13 +841,13 @@ public class Operations {
             }
         }
     }
-//!fexport
+    //!fexport
     void exportSave(MessageReceivedEvent event){
         event.getChannel().sendMessage("Exporting favorites, please wait...").complete();
         favorites.write();
         event.getChannel().sendMessage("Favorites exported!").complete();
     }
-//!ftop
+    //!ftop
     MessageEmbed favoriteListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
         formatter.setTimeZone(TimeZone.getTimeZone("PST"));
@@ -915,7 +943,7 @@ public class Operations {
                 "https://cdn.frankerfacez.com/emoticon/251321/4");
         return lbBuilder.build();
     }
-//!deleteF
+    //!deleteF
     void deleteFavorite(MessageReceivedEvent event){
         String msgArray[] = event.getMessage().getContentRaw().split("[\\[\\]]+");
         String animeName = msgArray[1];
