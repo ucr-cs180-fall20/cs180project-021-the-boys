@@ -75,6 +75,7 @@ public class Operations {
         msgBuilder.addField("!searcha","Search for a specific anime. (ex: !searcha Death Note)",false);
         msgBuilder.addField("!searchw","Search for a specific word in anime titles. (ex: !searchw death)",false);
         msgBuilder.addField("!random","Gives you a random anime in the list of over 10,000 anime.",false);
+        msgBuilder.addField("!randG","Gives you a random genre in the list of over 10,000 anime.",false);
         msgBuilder.addField("!favorite","Saves x anime to favorites. (ex: !favorite Death Note)",false);
         msgBuilder.addField("!deleteF","Deletes x anime from favorites. (ex: !deleteF [Death Note])",false);
         msgBuilder.addField("","",false);
