@@ -120,9 +120,8 @@ public class main extends ListenerAdapter {
                 //700 Mb's of ram available to run
                 //op.ratingsGraph(event);
             }
-            if(event.getMessage().getContentRaw().startsWith("!genrepie")){
-                //this one is messed up, needs fixing
-                //op.genrePieGraph(event);
+            if(event.getMessage().getContentRaw().startsWith("!piegenre")){
+                op.genrePieGraph(event);
             }
         }
     }
