@@ -381,7 +381,7 @@ public class Operations {
     void randomAnime(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
-        if(input.startsWith("random")){
+        
 
             Anime randAnime = getRandom();
 
@@ -397,9 +397,9 @@ public class Operations {
             if(found){
                 event.getChannel().sendMessage("Random Anime **" + randAnime.getName() + "**").complete();
             }
-        }
-    }
 
+    }
+    //get random function
     Anime getRandom(){
         Random random = new Random();
         int index = random.nextInt(list.getSize());
