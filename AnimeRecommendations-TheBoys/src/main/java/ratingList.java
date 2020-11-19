@@ -34,7 +34,15 @@ public class ratingList {
 
     void start(){
         for(int i = 0; i < 7813737; i++) {
-            String[] tokens = temp[i].split(",");
+            String[] tokens = new String[3];
+            String x = temp[i] + ",";
+            int iPos = 0;
+            int iStr = 0;
+            int iNext = -1;
+            while((iNext = x.indexOf(',',iPos)) != -1 && iStr < 3){
+                tokens[iStr++] = x.substring(iPos, iNext);
+                iPos = iNext + 1;
+            }
             Rating rating = new Rating(tokens[0], tokens[1], tokens[2]);
             System.out.println(tokens[0]);
             addRatingToList(rating);
