@@ -95,8 +95,8 @@ public class Operations {
     void searchFunction(MessageReceivedEvent event){
         String input = event.getMessage().getContentRaw();
         boolean found = false;
-        if(input.startsWith("!")){
-            input = input.substring(1);
+        if(input.startsWith("!searcha")){
+            input = input.substring(9);
             for(int i = 0; i <= list.getSize()-1; i++){
                 Anime exampleAnime = list.getList().get(i);
                 if (input.toUpperCase().replaceAll("\\s+","").equals(exampleAnime.getName().toUpperCase().replaceAll("\\s+",""))){
@@ -115,11 +115,11 @@ public class Operations {
                 event.getChannel().sendMessage("no results found").complete();
             }
         }
-        if(input.startsWith("$")) {
+        if(input.startsWith("!searchw")) {
             String temp = new String();
             StringBuilder Listname = new StringBuilder();
             StringBuilder Listname2 = new StringBuilder();
-            input = input.substring(1);
+            input = input.substring(9);
             for (int i = 0; i <= list.getSize() - 1; i++) {
                 Anime exampleAnime1 = list.getList().get(i);
                 if (exampleAnime1.getName().toUpperCase().replaceAll("\\s+","").contains(input.toUpperCase().replaceAll("\\s+",""))) {
@@ -535,7 +535,7 @@ public class Operations {
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        if(input1.startsWith("$")){
+        if(input1.startsWith("!")){
             input1 = input1.substring(1);
             if(input1.equals("top10ratings")){
                 for(int i = 0; i <= 10; i++) {
@@ -549,8 +549,8 @@ public class Operations {
 
             }
         }
-        if(input1.startsWith("rgraph")){
-            input1 = input1.substring(6);
+        if(input1.startsWith("!rgraph")){
+            input1 = input1.substring(7);
             input1 = input1.replaceAll("\\s+","");
             String[] newinput = input1.split("&");
             for(int w = 0; w < newinput.length; w++){
@@ -573,8 +573,8 @@ public class Operations {
                 event.getChannel().sendFile(new File("temp.png")).complete();
             }
         }
-        if(input1.startsWith("egraph")){
-            input1 = input1.substring(6);
+        if(input1.startsWith("!egraph")){
+            input1 = input1.substring(7);
             input1 = input1.replaceAll("\\s+","");
             String[] newinput = input1.split("&");
             for(int w = 0; w < newinput.length; w++){
