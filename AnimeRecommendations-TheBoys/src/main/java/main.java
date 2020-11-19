@@ -57,8 +57,18 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("!randG") || event.getMessage().getContentRaw().startsWith("!randg")){
                 op.randomGenre(event);
             }
+
             if(event.getMessage().getContentRaw().equals("!save")){
                 op.saveList(event);
+            }
+            if(event.getMessage().getContentRaw().equals("!genre")){
+                op.genreBarGraph(event);
+            }
+            if(event.getMessage().getContentRaw().equals("!bgenre")){
+                op.genreBarGraph(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("!mbgenre")){
+                op.genreBarGraph(event);
             }
             if(event.getMessage().getContentRaw().equals("!backup")){
                 op.backUp(event);
