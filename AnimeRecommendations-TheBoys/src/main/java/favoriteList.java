@@ -33,7 +33,7 @@ public class favoriteList {
         String save = ""; //String to be store
 
         for (Anime anime : saveList) { //per row
-            save = save.concat(Integer.toString(anime.getAnime_id())).concat(","); //ID
+            save = save.concat(anime.getAnime_id()).concat(","); //ID
             save = save.concat(anime.getName()).concat(","); //Name
             save = save.concat(anime.getGenre()).concat(","); //Genre
             save = save.concat(anime.getType()).concat(","); //Type
