@@ -464,6 +464,23 @@ public class Operations {
 
     }
 
+    //welcome prompt
+    void nyahallo(MessageReceivedEvent event) {
+        String input = event.getMessage().getContentRaw();
+        boolean found = false;
+
+        EmbedBuilder msgBuilder = new EmbedBuilder();
+        msgBuilder.setTitle("Hello!\n");
+
+        event.getChannel().sendMessage(msgBuilder.build()).complete();
+        found = true;
+
+        if (found) {
+            event.getChannel().sendMessage("I'm Kawa Gawa-chan!").complete();
+            event.getChannel().sendMessage("I was constructed to guide you through a list of anime such as tv shows or movies. All provided through the MyAnimelist database").complete();
+            event.getChannel().sendMessage("Just type in !help or !menu to get started!").complete();
+        }
+    }
 
     //!deleteA
     //self explanatory, but this allows the user to delete a specific user inputted anime from the list

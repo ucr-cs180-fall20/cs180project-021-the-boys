@@ -24,6 +24,13 @@ public class main extends ListenerAdapter {
         op = new Operations();
         jda = JDABuilder.createDefault("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4").build();
         jda.addEventListener(new main());
+
+//        System.out.println("Welcome! I'm Kawa Gawa-chan.\n");
+//        System.out.println("I was constructed to guide you through a list of anime such as tv shows or movies. All provided through the MyAnimelist database\n");
+//        System.out.println("Just type in !help or !menu to get started!\n");
+
+
+
     }
 //Command/Message Interpreter
     @Override
@@ -122,6 +129,9 @@ public class main extends ListenerAdapter {
             }
             if(event.getMessage().getContentRaw().startsWith("!piegenre")){
                 op.genrePieGraph(event);
+            }
+            if(event.getMessage().getContentRaw().startsWith("hello") || event.getMessage().getContentRaw().startsWith("hi")){
+                op.nyahallo(event);
             }
         }
     }
