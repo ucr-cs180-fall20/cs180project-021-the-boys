@@ -125,7 +125,5 @@ class animeList {
     //added update type
     void updateType(int listItem, String type){list.get(listItem).setType(type);}
 
-
-
     void deleteAnime(int i){list.remove(i);}
 }
