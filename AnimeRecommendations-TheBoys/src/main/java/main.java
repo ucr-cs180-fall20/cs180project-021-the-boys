@@ -65,7 +65,9 @@ public class main extends ListenerAdapter {
                 op.searchFunction(event);
             }
             if(event.getMessage().getContentRaw().startsWith("!random")){
-                op.randomAnime(event);
+                //op.randomAnime(event);
+                foundAnime = event.getChannel().sendMessage(op.randomAnime(event)).complete();
+                foundAnime.addReaction("U+1F498").complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!randG") || event.getMessage().getContentRaw().startsWith("!randg")){
                 op.randomGenre(event);
