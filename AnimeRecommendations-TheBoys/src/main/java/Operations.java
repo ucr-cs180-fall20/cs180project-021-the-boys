@@ -123,6 +123,7 @@ public class Operations {
                     //msgBuilder.setFooter("text on bottom");
                     //event.getChannel().sendMessage(msgBuilder.build()).complete();
                     found = true;
+                    favoriteAnime = exampleAnime;
                     return msgBuilder.build();
                 }
             }
@@ -458,6 +459,7 @@ public class Operations {
         if(found){
             event.getChannel().sendMessage("Random Anime: **" + randAnime.getName() + "**").complete();
         }
+        favoriteAnime = randAnime;
         return msgBuilder.build();
     }
     //get random function
@@ -891,6 +893,10 @@ public class Operations {
                 }
             }
         }
+    }
+    Anime favoriteAnime = new Anime();
+    void saveFavoriteByEmoji(){
+        favorites.add(favoriteAnime);
     }
     //!fexport
     void exportSave(MessageReceivedEvent event){
