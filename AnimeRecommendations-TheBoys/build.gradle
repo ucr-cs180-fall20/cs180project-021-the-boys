@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    runtime 'org.slf4j:slf4j-simple:1.7.25'
     implementation 'net.dv8tion:JDA:4.2.0_212'
     implementation 'com.jagrosh:jda-utilities:3.0.1'
     implementation 'org.jfree:jfreechart:1.5.1'
