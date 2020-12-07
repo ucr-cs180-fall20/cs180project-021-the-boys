@@ -693,7 +693,7 @@ public class Operations {
         boolean found = false;
         String input1 = event.getMessage().getContentRaw();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        if(input1.startsWith("!")){
+        /*if(input1.startsWith("!")){
             input1 = input1.substring(1);
             if(input1.equals("top10ratings")){
                 for(int i = 0; i <= 10; i++) {
@@ -706,7 +706,7 @@ public class Operations {
                 event.getChannel().sendFile(new File("temp.png")).complete();
 
             }
-        }
+        }*/
         if(input1.startsWith("!rgraph")){
             input1 = input1.substring(7);
             input1 = input1.replaceAll("\\s+","");
