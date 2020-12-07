@@ -175,7 +175,7 @@ public class Operations {
     //!top
     private int animeListPage = 0;
     private String animeListSort;
-    MessageEmbed animeListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage){
+    MessageEmbed animeListEmbed(String message, boolean reset, boolean nextpage, boolean previouspage, boolean updown){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
         formatter.setTimeZone(TimeZone.getTimeZone("PST"));
         Date date = new Date();
@@ -207,15 +207,25 @@ public class Operations {
         if(animeListSort.equals("topw")){
             //listCopy = new ArrayList<>(list.getList());
             listCopy.sort(Comparator.comparing(Anime::getMembers));
-            Collections.reverse(listCopy);
         }
 
         //gets the top rating
         else if(animeListSort.equals("topr")){
             //listCopy = new ArrayList<>(list.getList());
             listCopy.sort(Comparator.comparing(Anime::getRating));
-            Collections.reverse(listCopy);
         }
+
+        else if(animeListSort.equals("tope")){
+            //listCopy = new ArrayList<>(list.getList());
+            listCopy.sort(Comparator.comparing(Anime::getEpisodes));
+        }
+
+        else if(animeListSort.equals("topa")){
+            //listCopy = new ArrayList<>(list.getList());
+            listCopy.sort(Comparator.comparing(Anime::getName));
+        }
+
+        if(updown) Collections.reverse(listCopy);
 
         StringBuilder desc = new StringBuilder("```css\nRank   " + String.format("%-20s", "Anime") + "Rating  Type  " +
                 "Episodes  Watched\n```");
