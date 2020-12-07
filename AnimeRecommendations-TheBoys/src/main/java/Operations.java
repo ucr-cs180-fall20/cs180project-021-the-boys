@@ -101,7 +101,10 @@ public class Operations {
     //including the anime's Title, Genre, Episodes, and rating
     //inputting !searchw will search for keywords that are in the list of existing anime
     MessageEmbed searchFunction(MessageReceivedEvent event){
-        MessageEmbed temporary = new EmbedBuilder().build();
+        MessageEmbed temporary;
+        EmbedBuilder tempBuilder = new EmbedBuilder();
+        tempBuilder.setTitle(" ");
+        temporary = tempBuilder.build();
         String input = event.getMessage().getContentRaw();
         boolean found = false;
         if(input.startsWith("!searcha")){
@@ -426,10 +429,8 @@ public class Operations {
     }
     //!random
     //function for bringing up a random anime to watch
-    void randomAnime(MessageReceivedEvent event){
-        String input = event.getMessage().getContentRaw();
+    MessageEmbed randomAnime(MessageReceivedEvent event){
         boolean found = false;
-
 
         Anime randAnime = getRandom();
 
@@ -438,14 +439,16 @@ public class Operations {
         msgBuilder.addField("Genre",randAnime.getGenre(), false);
         msgBuilder.addField("Episodes", ""+randAnime.getEpisodes(), false);
         msgBuilder.addField("Rating", ""+ randAnime.getRating(), false);
+        msgBuilder.addField("Watched", ""+ randAnime.getMembers(), false);
+        msgBuilder.addField("Type", ""+ randAnime.getType(), false);
 
-        event.getChannel().sendMessage(msgBuilder.build()).complete();
+        //event.getChannel().sendMessage(msgBuilder.build()).complete();
         found = true;
 
         if(found){
             event.getChannel().sendMessage("Random Anime: **" + randAnime.getName() + "**").complete();
         }
-
+        return msgBuilder.build();
     }
     //get random function
     Anime getRandom(){
