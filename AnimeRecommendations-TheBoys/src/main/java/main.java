@@ -19,10 +19,11 @@ public class main extends ListenerAdapter {
     Message testMessage;
     Message animeListEmbed;
     Message favoriteListEmbed;
+    Message foundAnime;
 
-    public static void main(String[] args) throws  LoginException {
+    public static void main(String[] args) throws LoginException, InterruptedException {
         op = new Operations();
-        jda = JDABuilder.createDefault("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4").build();
+        jda = JDABuilder.createDefault("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4").build().awaitReady();
         jda.addEventListener(new main());
 
 //        System.out.println("Welcome! I'm Kawa Gawa-chan.\n");
@@ -52,10 +53,15 @@ public class main extends ListenerAdapter {
             if(event.getMessage().getContentRaw().startsWith("!ftop")){
                 MessageEmbed temp = op.favoriteListEmbed(event.getMessage().getContentRaw(),true, false, false);
                 favoriteListEmbed = event.getChannel().sendMessage(temp).complete();
-                favoriteListEmbed.addReaction("U+2b05").complete();
-                favoriteListEmbed.addReaction("U+27a1").complete();
+                //favoriteListEmbed.addReaction("U+2b05").complete();
+                //favoriteListEmbed.addReaction("U+27a1").complete();
             }
-            if(event.getMessage().getContentRaw().startsWith("!searcha") || event.getMessage().getContentRaw().startsWith("!searchw")){
+            if(event.getMessage().getContentRaw().startsWith("!searcha")){
+                //op.searchFunction(event);
+                foundAnime = event.getChannel().sendMessage(op.searchFunction(event)).complete();
+                foundAnime.addReaction("U+1F498").complete();
+            }
+            if(event.getMessage().getContentRaw().startsWith("!searchw")){
                 op.searchFunction(event);
             }
             if(event.getMessage().getContentRaw().startsWith("!random")){
@@ -148,7 +154,13 @@ public class main extends ListenerAdapter {
                         MessageEmbed temp = op.animeListEmbed("", false, true, false);
                         animeListEmbed = animeListEmbed.editMessage(temp).complete();
                     }
-                } else if (event.getMessageId().equals(favoriteListEmbed.getId())) {
+                }
+                else if(event.getMessageId().equals(foundAnime.getId())){
+                    if(event.getReactionEmote().getAsCodepoints().equals("U+1F498")){
+                        event.getChannel().sendMessage("Anime added to favorites").complete();
+                    }
+                }
+                /*else if (event.getMessageId().equals(favoriteListEmbed.getId())) {
                     if (event.getReactionEmote().getAsCodepoints().equals("U+2b05")) {
                         MessageEmbed temp = op.animeListEmbed("", false, false, true);
                         favoriteListEmbed = favoriteListEmbed.editMessage(temp).complete();
@@ -156,7 +168,7 @@ public class main extends ListenerAdapter {
                         MessageEmbed temp = op.animeListEmbed("", false, true, false);
                         favoriteListEmbed = favoriteListEmbed.editMessage(temp).complete();
                     }
-                }
+                }*/
             }
         }
         catch (Exception ignored){}
