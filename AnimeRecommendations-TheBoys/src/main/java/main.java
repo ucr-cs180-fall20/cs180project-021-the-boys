@@ -45,10 +45,16 @@ public class main extends ListenerAdapter {
                 startMenu = event.getChannel().sendMessage(op.startMenu()).complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!top")){
-                MessageEmbed temp = op.animeListEmbed(event.getMessage().getContentRaw(),true, false, false);
+                MessageEmbed temp = op.animeListEmbed(event.getMessage().getContentRaw(),true, false, false, false);
                 animeListEmbed = event.getChannel().sendMessage(temp).complete();
                 animeListEmbed.addReaction("U+2b05").complete();
                 animeListEmbed.addReaction("U+27a1").complete();
+                animeListEmbed.addReaction("U+1f524").complete();
+                animeListEmbed.addReaction("U+1F51D").complete();
+                animeListEmbed.addReaction("U+0023U+fe0fU+20e3").complete();
+                animeListEmbed.addReaction("U+1f441").complete();
+                animeListEmbed.addReaction("U+1f4C8").complete();
+                animeListEmbed.addReaction("U+1f4C9").complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!ftop")){
                 MessageEmbed temp = op.favoriteListEmbed(event.getMessage().getContentRaw(),true, false, false);
@@ -149,15 +155,34 @@ public class main extends ListenerAdapter {
         try {
             if (!event.getUser().isBot()) {
                 if (event.getMessageId().equals(animeListEmbed.getId())) {
+                    //event.getChannel().sendMessage(event.getReactionEmote().getAsCodepoints()).complete();
                     if (event.getReactionEmote().getAsCodepoints().equals("U+2b05")) {
-                        MessageEmbed temp = op.animeListEmbed("", false, false, true);
+                        MessageEmbed temp = op.animeListEmbed("", false, false, true, true);
                         animeListEmbed = animeListEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+27a1")) {
-                        MessageEmbed temp = op.animeListEmbed("", false, true, false);
+                        MessageEmbed temp = op.animeListEmbed("", false, true, false, true);
+                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f524")) {
+                        MessageEmbed temp = op.animeListEmbed("topa", true, false, false, true);
+                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f51d")) {
+                        MessageEmbed temp = op.animeListEmbed("topr", true, false, false, true);
+                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+23U+fe0fU+20e3")) {
+                        MessageEmbed temp = op.animeListEmbed("tope", true, false, false, true);
+                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f441")) {
+                        MessageEmbed temp = op.animeListEmbed("topw", true, false, false, true);
+                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f4c8")) {
+                        MessageEmbed temp = op.animeListEmbed("", false, false, false, false);
+                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f4c9")) {
+                        MessageEmbed temp = op.animeListEmbed("", false, false, false, true);
                         animeListEmbed = animeListEmbed.editMessage(temp).complete();
                     }
                 }
-                else if(event.getMessageId().equals(foundAnime.getId())){
+                if(event.getMessageId().equals(foundAnime.getId())){
                     if(event.getReactionEmote().getAsCodepoints().equals("U+1F498")){
                         event.getChannel().sendMessage("Anime added to favorites").complete();
                     }
