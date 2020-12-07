@@ -100,7 +100,8 @@ public class Operations {
     //inputting !searcha will wait for the user to input an anime title from the existing list and will bring up the results
     //including the anime's Title, Genre, Episodes, and rating
     //inputting !searchw will search for keywords that are in the list of existing anime
-    void searchFunction(MessageReceivedEvent event){
+    MessageEmbed searchFunction(MessageReceivedEvent event){
+        MessageEmbed temporary = new EmbedBuilder().build();
         String input = event.getMessage().getContentRaw();
         boolean found = false;
         if(input.startsWith("!searcha")){
@@ -113,15 +114,19 @@ public class Operations {
                     msgBuilder.addField("Genre",exampleAnime.getGenre(), false);
                     msgBuilder.addField("Episodes", ""+exampleAnime.getEpisodes(), false);
                     msgBuilder.addField("Rating", ""+ exampleAnime.getRating(), false);
+                    msgBuilder.addField("Watched", ""+ exampleAnime.getMembers(), false);
+                    msgBuilder.addField("Type", ""+ exampleAnime.getType(), false);
                     //msgBuilder.addField("field title 4", "content without inline", false);
                     //msgBuilder.setFooter("text on bottom");
-                    event.getChannel().sendMessage(msgBuilder.build()).complete();
+                    //event.getChannel().sendMessage(msgBuilder.build()).complete();
                     found = true;
+                    return msgBuilder.build();
                 }
             }
             if(!found){
                 event.getChannel().sendMessage("no results found").complete();
             }
+            return temporary;
         }
         if(input.startsWith("!searchw")) {
             String temp = new String();
@@ -146,6 +151,7 @@ public class Operations {
             }
             if (!found) {
                 event.getChannel().sendMessage("no results found").complete();
+                return temporary;
             }
             else {
                 EmbedBuilder msgBuilder = new EmbedBuilder();
@@ -161,6 +167,7 @@ public class Operations {
                 }
             }
         }
+        return temporary;
     }
     //!top
     private int animeListPage = 0;
