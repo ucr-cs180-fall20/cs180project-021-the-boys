@@ -11,8 +11,7 @@ import java.util.List;
 
 public class favoriteList {
     private final animeList list = new animeList();
-    private static final String testSave = "savedFavorite.csv";
-    private static final String backupFile = "backupListAnime.csv";
+    private static final String favoriteSave = "savedFavorite.csv";
     List<Anime> saveList = new ArrayList<Anime>();
 
     String line;
@@ -43,7 +42,7 @@ public class favoriteList {
         }
 
         try{
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(testSave));
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get(favoriteSave));
             //save list to files
             writer.write(save);
             writer.close();
