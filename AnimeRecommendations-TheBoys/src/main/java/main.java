@@ -15,11 +15,7 @@ public class main extends ListenerAdapter {
     private static JDA jda;
     private static Operations op;
 
-    Message startMenu;
-    Message testMessage;
-    Message animeListEmbed;
-    Message favoriteListEmbed;
-    Message foundAnime;
+    Message messageEmbed;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         op = new Operations();
@@ -30,10 +26,8 @@ public class main extends ListenerAdapter {
 //        System.out.println("I was constructed to guide you through a list of anime such as tv shows or movies. All provided through the MyAnimelist database\n");
 //        System.out.println("Just type in !help or !menu to get started!\n");
 
-
-
     }
-//Command/Message Interpreter
+    //Command/Message Interpreter
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String channelID = event.getChannel().getId();
@@ -42,38 +36,38 @@ public class main extends ListenerAdapter {
             System.out.println("Message received: " + event.getMessage().getContentRaw() + "\n From: " + event.getAuthor().getName());
 
             if(event.getMessage().getContentRaw().equals("!menu") || event.getMessage().getContentRaw().equals("!help")){
-                startMenu = event.getChannel().sendMessage(op.startMenu()).complete();
+                messageEmbed = event.getChannel().sendMessage(op.startMenu()).complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!top")){
                 MessageEmbed temp = op.animeListEmbed(event.getMessage().getContentRaw(),true, false, false, false);
-                animeListEmbed = event.getChannel().sendMessage(temp).complete();
-                animeListEmbed.addReaction("U+2b05").complete();
-                animeListEmbed.addReaction("U+27a1").complete();
-                animeListEmbed.addReaction("U+1f524").complete();
-                animeListEmbed.addReaction("U+1F51D").complete();
-                animeListEmbed.addReaction("U+0023U+fe0fU+20e3").complete();
-                animeListEmbed.addReaction("U+1f441").complete();
-                animeListEmbed.addReaction("U+1f4C8").complete();
-                animeListEmbed.addReaction("U+1f4C9").complete();
+                messageEmbed = event.getChannel().sendMessage(temp).complete();
+                messageEmbed.addReaction("U+2b05").complete();
+                messageEmbed.addReaction("U+27a1").complete();
+                messageEmbed.addReaction("U+1f524").complete();
+                messageEmbed.addReaction("U+1F51D").complete();
+                messageEmbed.addReaction("U+0023U+fe0fU+20e3").complete();
+                messageEmbed.addReaction("U+1f441").complete();
+                messageEmbed.addReaction("U+1f4C8").complete();
+                messageEmbed.addReaction("U+1f4C9").complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!ftop")){
                 MessageEmbed temp = op.favoriteListEmbed(event.getMessage().getContentRaw(),true, false, false);
-                favoriteListEmbed = event.getChannel().sendMessage(temp).complete();
+                messageEmbed = event.getChannel().sendMessage(temp).complete();
                 //favoriteListEmbed.addReaction("U+2b05").complete();
                 //favoriteListEmbed.addReaction("U+27a1").complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!searcha")){
                 //op.searchFunction(event);
-                foundAnime = event.getChannel().sendMessage(op.searchFunction(event)).complete();
-                foundAnime.addReaction("U+1F498").complete();
+                messageEmbed = event.getChannel().sendMessage(op.searchFunction(event)).complete();
+                messageEmbed.addReaction("U+1F498").complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!searchw")){
                 op.searchFunction(event);
             }
             if(event.getMessage().getContentRaw().startsWith("!random")){
                 //op.randomAnime(event);
-                foundAnime = event.getChannel().sendMessage(op.randomAnime(event)).complete();
-                foundAnime.addReaction("U+1F498").complete();
+                messageEmbed = event.getChannel().sendMessage(op.randomAnime(event)).complete();
+                messageEmbed.addReaction("U+1F498").complete();
             }
             if(event.getMessage().getContentRaw().startsWith("!randG") || event.getMessage().getContentRaw().startsWith("!randg")){
                 op.randomGenre(event);
@@ -149,41 +143,40 @@ public class main extends ListenerAdapter {
             }
         }
     }
-//React Button Navigation
+    //React Button Navigation
     @Override
     public void onGenericMessageReaction(@NotNull GenericMessageReactionEvent event) {
         try {
             if (!event.getUser().isBot()) {
-                if (event.getMessageId().equals(animeListEmbed.getId())) {
+                if (event.getMessageId().equals(messageEmbed.getId())) {
                     //event.getChannel().sendMessage(event.getReactionEmote().getAsCodepoints()).complete();
                     if (event.getReactionEmote().getAsCodepoints().equals("U+2b05")) {
                         MessageEmbed temp = op.animeListEmbed("", false, false, true, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+27a1")) {
                         MessageEmbed temp = op.animeListEmbed("", false, true, false, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f524")) {
                         MessageEmbed temp = op.animeListEmbed("topa", true, false, false, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f51d")) {
                         MessageEmbed temp = op.animeListEmbed("topr", true, false, false, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+23U+fe0fU+20e3")) {
                         MessageEmbed temp = op.animeListEmbed("tope", true, false, false, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f441")) {
                         MessageEmbed temp = op.animeListEmbed("topw", true, false, false, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
-                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f4c8")) {
-                        MessageEmbed temp = op.animeListEmbed("", false, false, false, false);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f4c9")) {
+                        MessageEmbed temp = op.animeListEmbed("", false, false, false, false);
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
+                    } else if (event.getReactionEmote().getAsCodepoints().equals("U+1f4c8")) {
                         MessageEmbed temp = op.animeListEmbed("", false, false, false, true);
-                        animeListEmbed = animeListEmbed.editMessage(temp).complete();
+                        messageEmbed = messageEmbed.editMessage(temp).complete();
                     }
-                }
-                if(event.getMessageId().equals(foundAnime.getId())){
-                    if(event.getReactionEmote().getAsCodepoints().equals("U+1F498")){
+                    if(event.getReactionEmote().getAsCodepoints().equals("U+1f498")){
+                        op.saveFavoriteByEmoji();
                         event.getChannel().sendMessage("Anime added to favorites").complete();
                     }
                 }
@@ -198,6 +191,8 @@ public class main extends ListenerAdapter {
                 }*/
             }
         }
-        catch (Exception ignored){}
+        catch (Exception e){
+            System.out.println(e);
+        }
     }
 }
