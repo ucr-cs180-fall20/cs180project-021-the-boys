@@ -19,7 +19,7 @@ public class main extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         op = new Operations();
-        jda = JDABuilder.createDefault("NzExMDY3NjczNjg0ODY5MTgw.Xr9neA.eVMng9D87Y-WWf0JoYGOxP0oDU4").build().awaitReady();
+        jda = JDABuilder.createDefault("").build().awaitReady();
         jda.addEventListener(new main());
 
 //        System.out.println("Welcome! I'm Kawa Gawa-chan.\n");
