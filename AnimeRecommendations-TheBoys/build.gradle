@@ -1,0 +1,43 @@
+group 'The Boys - CS180'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = 1.8
+
+mainClassName = 'main'
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    runtime 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'net.dv8tion:JDA:4.2.0_212'
+    implementation 'com.jagrosh:jda-utilities:3.0.1'
+    implementation 'org.jfree:jfreechart:1.5.1'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+        classpath 'org.hidetake:gradle-ssh-plugin:2.9.0'
+    }
+}
+
+shadowJar {
+    baseName = 'main'
+    classifier = null
+    version = null
+}
